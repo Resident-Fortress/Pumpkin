@@ -94,7 +94,7 @@
   {
     "key": {
       "#": "minecraft:stripped_acacia_log",
-      "X": "minecraft:chain"
+      "X": "minecraft:iron_chain"
     },
     "pattern": [
       "X X",
@@ -134,6 +134,23 @@
     },
     "group": "wooden_pressure_plate",
     "category": "redstone",
+    "type": "minecraft:crafting_shaped"
+  },
+  {
+    "key": {
+      "#": "minecraft:stripped_acacia_log"
+    },
+    "pattern": [
+      "###",
+      "   ",
+      "###"
+    ],
+    "result": {
+      "id": "minecraft:acacia_shelf",
+      "count": 6
+    },
+    "group": "shelf",
+    "category": "misc",
     "type": "minecraft:crafting_shaped"
   },
   {
@@ -516,7 +533,7 @@
   {
     "key": {
       "#": "minecraft:stripped_bamboo_block",
-      "X": "minecraft:chain"
+      "X": "minecraft:iron_chain"
     },
     "pattern": [
       "X X",
@@ -616,6 +633,23 @@
       "count": 1
     },
     "group": "boat",
+    "category": "misc",
+    "type": "minecraft:crafting_shaped"
+  },
+  {
+    "key": {
+      "#": "minecraft:stripped_bamboo_block"
+    },
+    "pattern": [
+      "###",
+      "   ",
+      "###"
+    ],
+    "result": {
+      "id": "minecraft:bamboo_shelf",
+      "count": 6
+    },
+    "group": "shelf",
     "category": "misc",
     "type": "minecraft:crafting_shaped"
   },
@@ -853,7 +887,7 @@
   {
     "key": {
       "#": "minecraft:stripped_birch_log",
-      "X": "minecraft:chain"
+      "X": "minecraft:iron_chain"
     },
     "pattern": [
       "X X",
@@ -893,6 +927,23 @@
     },
     "group": "wooden_pressure_plate",
     "category": "redstone",
+    "type": "minecraft:crafting_shaped"
+  },
+  {
+    "key": {
+      "#": "minecraft:stripped_birch_log"
+    },
+    "pattern": [
+      "###",
+      "   ",
+      "###"
+    ],
+    "result": {
+      "id": "minecraft:birch_shelf",
+      "count": 6
+    },
+    "group": "shelf",
+    "category": "misc",
     "type": "minecraft:crafting_shaped"
   },
   {
@@ -1015,7 +1066,9 @@
   {
     "input": "#minecraft:bundles",
     "material": "minecraft:black_dye",
-    "result": "minecraft:black_bundle",
+    "result": {
+      "id": "minecraft:black_bundle"
+    },
     "group": "bundle_dye",
     "category": "equipment",
     "type": "minecraft:crafting_transmute"
@@ -1103,9 +1156,29 @@
     "type": "minecraft:smelting"
   },
   {
+    "key": {
+      "#": "minecraft:black_wool",
+      "G": "minecraft:glass",
+      "L": "minecraft:leather"
+    },
+    "pattern": [
+      "LLL",
+      "G#G"
+    ],
+    "result": {
+      "id": "minecraft:black_harness",
+      "count": 1
+    },
+    "group": "harness",
+    "category": "equipment",
+    "type": "minecraft:crafting_shaped"
+  },
+  {
     "input": "#minecraft:shulker_boxes",
     "material": "minecraft:black_dye",
-    "result": "minecraft:black_shulker_box",
+    "result": {
+      "id": "minecraft:black_shulker_box"
+    },
     "group": "shulker_box_dye",
     "category": "misc",
     "type": "minecraft:crafting_transmute"
@@ -1316,7 +1389,9 @@
   {
     "input": "#minecraft:bundles",
     "material": "minecraft:blue_dye",
-    "result": "minecraft:blue_bundle",
+    "result": {
+      "id": "minecraft:blue_bundle"
+    },
     "group": "bundle_dye",
     "category": "equipment",
     "type": "minecraft:crafting_transmute"
@@ -1404,6 +1479,24 @@
     "type": "minecraft:smelting"
   },
   {
+    "key": {
+      "#": "minecraft:blue_wool",
+      "G": "minecraft:glass",
+      "L": "minecraft:leather"
+    },
+    "pattern": [
+      "LLL",
+      "G#G"
+    ],
+    "result": {
+      "id": "minecraft:blue_harness",
+      "count": 1
+    },
+    "group": "harness",
+    "category": "equipment",
+    "type": "minecraft:crafting_shaped"
+  },
+  {
     "category": "building",
     "result": {
       "id": "minecraft:blue_ice",
@@ -1425,7 +1518,9 @@
   {
     "input": "#minecraft:shulker_boxes",
     "material": "minecraft:blue_dye",
-    "result": "minecraft:blue_shulker_box",
+    "result": {
+      "id": "minecraft:blue_shulker_box"
+    },
     "group": "shulker_box_dye",
     "category": "misc",
     "type": "minecraft:crafting_transmute"
@@ -1525,6 +1620,7 @@
     "template": "minecraft:bolt_armor_trim_smithing_template",
     "base": "#minecraft:trimmable_armor",
     "addition": "#minecraft:trim_materials",
+    "pattern": "minecraft:bolt",
     "type": "minecraft:smithing_trim"
   },
   {
@@ -1808,7 +1904,9 @@
   {
     "input": "#minecraft:bundles",
     "material": "minecraft:brown_dye",
-    "result": "minecraft:brown_bundle",
+    "result": {
+      "id": "minecraft:brown_bundle"
+    },
     "group": "bundle_dye",
     "category": "equipment",
     "type": "minecraft:crafting_transmute"
@@ -1884,9 +1982,29 @@
     "type": "minecraft:smelting"
   },
   {
+    "key": {
+      "#": "minecraft:brown_wool",
+      "G": "minecraft:glass",
+      "L": "minecraft:leather"
+    },
+    "pattern": [
+      "LLL",
+      "G#G"
+    ],
+    "result": {
+      "id": "minecraft:brown_harness",
+      "count": 1
+    },
+    "group": "harness",
+    "category": "equipment",
+    "type": "minecraft:crafting_shaped"
+  },
+  {
     "input": "#minecraft:shulker_boxes",
     "material": "minecraft:brown_dye",
-    "result": "minecraft:brown_shulker_box",
+    "result": {
+      "id": "minecraft:brown_shulker_box"
+    },
     "group": "shulker_box_dye",
     "category": "misc",
     "type": "minecraft:crafting_transmute"
@@ -2015,7 +2133,7 @@
       "A": "minecraft:milk_bucket",
       "B": "minecraft:sugar",
       "C": "minecraft:wheat",
-      "E": "minecraft:egg"
+      "E": "#minecraft:eggs"
     },
     "pattern": [
       "AAA",
@@ -2129,23 +2247,6 @@
     "type": "minecraft:crafting_shaped"
   },
   {
-    "key": {
-      "I": "minecraft:iron_ingot",
-      "N": "minecraft:iron_nugget"
-    },
-    "pattern": [
-      "N",
-      "I",
-      "N"
-    ],
-    "result": {
-      "id": "minecraft:chain",
-      "count": 1
-    },
-    "category": "misc",
-    "type": "minecraft:crafting_shaped"
-  },
-  {
     "result": {
       "id": "minecraft:charcoal"
     },
@@ -2250,7 +2351,7 @@
   {
     "key": {
       "#": "minecraft:stripped_cherry_log",
-      "X": "minecraft:chain"
+      "X": "minecraft:iron_chain"
     },
     "pattern": [
       "X X",
@@ -2290,6 +2391,23 @@
     },
     "group": "wooden_pressure_plate",
     "category": "redstone",
+    "type": "minecraft:crafting_shaped"
+  },
+  {
+    "key": {
+      "#": "minecraft:stripped_cherry_log"
+    },
+    "pattern": [
+      "###",
+      "   ",
+      "###"
+    ],
+    "result": {
+      "id": "minecraft:cherry_shelf",
+      "count": 6
+    },
+    "group": "shelf",
+    "category": "misc",
     "type": "minecraft:crafting_shaped"
   },
   {
@@ -2575,6 +2693,29 @@
   },
   {
     "key": {
+      "#": "minecraft:resin_brick_slab"
+    },
+    "pattern": [
+      "#",
+      "#"
+    ],
+    "result": {
+      "id": "minecraft:chiseled_resin_bricks",
+      "count": 1
+    },
+    "category": "building",
+    "type": "minecraft:crafting_shaped"
+  },
+  {
+    "ingredient": "minecraft:resin_bricks",
+    "result": {
+      "id": "minecraft:chiseled_resin_bricks",
+      "count": 1
+    },
+    "type": "minecraft:stonecutting"
+  },
+  {
+    "key": {
       "#": "minecraft:sandstone_slab"
     },
     "pattern": [
@@ -2830,6 +2971,7 @@
     "template": "minecraft:coast_armor_trim_smithing_template",
     "base": "#minecraft:trimmable_armor",
     "addition": "#minecraft:trim_materials",
+    "pattern": "minecraft:coast",
     "type": "minecraft:smithing_trim"
   },
   {
@@ -3265,6 +3407,38 @@
   },
   {
     "key": {
+      "#": "minecraft:stick",
+      "X": "#minecraft:copper_tool_materials"
+    },
+    "pattern": [
+      "XX",
+      "X#",
+      " #"
+    ],
+    "result": {
+      "id": "minecraft:copper_axe",
+      "count": 1
+    },
+    "category": "equipment",
+    "type": "minecraft:crafting_shaped"
+  },
+  {
+    "key": {
+      "#": "minecraft:copper_ingot"
+    },
+    "pattern": [
+      "###",
+      "###"
+    ],
+    "result": {
+      "id": "minecraft:copper_bars",
+      "count": 16
+    },
+    "category": "misc",
+    "type": "minecraft:crafting_shaped"
+  },
+  {
+    "key": {
       "#": "minecraft:copper_ingot"
     },
     "pattern": [
@@ -3277,6 +3451,21 @@
       "count": 1
     },
     "category": "building",
+    "type": "minecraft:crafting_shaped"
+  },
+  {
+    "key": {
+      "X": "minecraft:copper_ingot"
+    },
+    "pattern": [
+      "X X",
+      "X X"
+    ],
+    "result": {
+      "id": "minecraft:copper_boots",
+      "count": 1
+    },
+    "category": "equipment",
     "type": "minecraft:crafting_shaped"
   },
   {
@@ -3295,6 +3484,56 @@
       "count": 4
     },
     "category": "redstone",
+    "type": "minecraft:crafting_shaped"
+  },
+  {
+    "key": {
+      "I": "minecraft:copper_ingot",
+      "N": "minecraft:copper_nugget"
+    },
+    "pattern": [
+      "N",
+      "I",
+      "N"
+    ],
+    "result": {
+      "id": "minecraft:copper_chain",
+      "count": 1
+    },
+    "category": "misc",
+    "type": "minecraft:crafting_shaped"
+  },
+  {
+    "key": {
+      "#": "minecraft:copper_ingot",
+      "X": "minecraft:chest"
+    },
+    "pattern": [
+      "###",
+      "#X#",
+      "###"
+    ],
+    "result": {
+      "id": "minecraft:copper_chest",
+      "count": 1
+    },
+    "category": "misc",
+    "type": "minecraft:crafting_shaped"
+  },
+  {
+    "key": {
+      "X": "minecraft:copper_ingot"
+    },
+    "pattern": [
+      "X X",
+      "XXX",
+      "XXX"
+    ],
+    "result": {
+      "id": "minecraft:copper_chestplate",
+      "count": 1
+    },
+    "category": "equipment",
     "type": "minecraft:crafting_shaped"
   },
   {
@@ -3336,6 +3575,38 @@
       "count": 4
     },
     "type": "minecraft:stonecutting"
+  },
+  {
+    "key": {
+      "X": "minecraft:copper_ingot"
+    },
+    "pattern": [
+      "XXX",
+      "X X"
+    ],
+    "result": {
+      "id": "minecraft:copper_helmet",
+      "count": 1
+    },
+    "category": "equipment",
+    "type": "minecraft:crafting_shaped"
+  },
+  {
+    "key": {
+      "#": "minecraft:stick",
+      "X": "#minecraft:copper_tool_materials"
+    },
+    "pattern": [
+      "XX",
+      " #",
+      " #"
+    ],
+    "result": {
+      "id": "minecraft:copper_hoe",
+      "count": 1
+    },
+    "category": "equipment",
+    "type": "minecraft:crafting_shaped"
   },
   {
     "group": "copper_ingot",
@@ -3381,6 +3652,23 @@
     "category": "misc",
     "ingredient": "minecraft:raw_copper",
     "type": "minecraft:blasting"
+  },
+  {
+    "key": {
+      "#": "minecraft:copper_nugget"
+    },
+    "pattern": [
+      "###",
+      "###",
+      "###"
+    ],
+    "result": {
+      "id": "minecraft:copper_ingot",
+      "count": 1
+    },
+    "group": "copper_ingot",
+    "category": "misc",
+    "type": "minecraft:crafting_shaped"
   },
   {
     "result": {
@@ -3429,15 +3717,173 @@
   },
   {
     "key": {
+      "#": "minecraft:copper_torch",
+      "X": "minecraft:copper_nugget"
+    },
+    "pattern": [
+      "XXX",
+      "X#X",
+      "XXX"
+    ],
+    "result": {
+      "id": "minecraft:copper_lantern",
+      "count": 1
+    },
+    "category": "misc",
+    "type": "minecraft:crafting_shaped"
+  },
+  {
+    "key": {
+      "X": "minecraft:copper_ingot"
+    },
+    "pattern": [
+      "XXX",
+      "X X",
+      "X X"
+    ],
+    "result": {
+      "id": "minecraft:copper_leggings",
+      "count": 1
+    },
+    "category": "equipment",
+    "type": "minecraft:crafting_shaped"
+  },
+  {
+    "category": "misc",
+    "result": {
+      "id": "minecraft:copper_nugget",
+      "count": 9
+    },
+    "ingredients": [
+      "minecraft:copper_ingot"
+    ],
+    "type": "minecraft:crafting_shapeless"
+  },
+  {
+    "result": {
+      "id": "minecraft:copper_nugget"
+    },
+    "experience": 0.1,
+    "cookingtime": 100,
+    "category": "misc",
+    "ingredient": [
+      "minecraft:copper_pickaxe",
+      "minecraft:copper_shovel",
+      "minecraft:copper_axe",
+      "minecraft:copper_hoe",
+      "minecraft:copper_sword",
+      "minecraft:copper_helmet",
+      "minecraft:copper_chestplate",
+      "minecraft:copper_leggings",
+      "minecraft:copper_boots",
+      "minecraft:copper_horse_armor"
+    ],
+    "type": "minecraft:blasting"
+  },
+  {
+    "result": {
+      "id": "minecraft:copper_nugget"
+    },
+    "experience": 0.1,
+    "cookingtime": 200,
+    "category": "misc",
+    "ingredient": [
+      "minecraft:copper_pickaxe",
+      "minecraft:copper_shovel",
+      "minecraft:copper_axe",
+      "minecraft:copper_hoe",
+      "minecraft:copper_sword",
+      "minecraft:copper_helmet",
+      "minecraft:copper_chestplate",
+      "minecraft:copper_leggings",
+      "minecraft:copper_boots",
+      "minecraft:copper_horse_armor"
+    ],
+    "type": "minecraft:smelting"
+  },
+  {
+    "key": {
+      "#": "minecraft:stick",
+      "X": "#minecraft:copper_tool_materials"
+    },
+    "pattern": [
+      "XXX",
+      " # ",
+      " # "
+    ],
+    "result": {
+      "id": "minecraft:copper_pickaxe",
+      "count": 1
+    },
+    "category": "equipment",
+    "type": "minecraft:crafting_shaped"
+  },
+  {
+    "key": {
+      "#": "minecraft:stick",
+      "X": "#minecraft:copper_tool_materials"
+    },
+    "pattern": [
+      "X",
+      "#",
+      "#"
+    ],
+    "result": {
+      "id": "minecraft:copper_shovel",
+      "count": 1
+    },
+    "category": "equipment",
+    "type": "minecraft:crafting_shaped"
+  },
+  {
+    "key": {
+      "#": "minecraft:stick",
+      "X": "#minecraft:copper_tool_materials"
+    },
+    "pattern": [
+      "X",
+      "X",
+      "#"
+    ],
+    "result": {
+      "id": "minecraft:copper_sword",
+      "count": 1
+    },
+    "category": "equipment",
+    "type": "minecraft:crafting_shaped"
+  },
+  {
+    "key": {
+      "#": "minecraft:stick",
+      "C": "minecraft:copper_nugget",
+      "X": [
+        "minecraft:coal",
+        "minecraft:charcoal"
+      ]
+    },
+    "pattern": [
+      "C",
+      "X",
+      "#"
+    ],
+    "result": {
+      "id": "minecraft:copper_torch",
+      "count": 4
+    },
+    "category": "misc",
+    "type": "minecraft:crafting_shaped"
+  },
+  {
+    "key": {
       "#": "minecraft:copper_ingot"
     },
     "pattern": [
-      "###",
-      "###"
+      "##",
+      "##"
     ],
     "result": {
       "id": "minecraft:copper_trapdoor",
-      "count": 2
+      "count": 1
     },
     "category": "redstone",
     "type": "minecraft:crafting_shaped"
@@ -3528,6 +3974,23 @@
     "type": "minecraft:crafting_shaped"
   },
   {
+    "key": {
+      "L": "minecraft:pale_oak_log",
+      "R": "minecraft:resin_block"
+    },
+    "pattern": [
+      " L ",
+      " R ",
+      " L "
+    ],
+    "result": {
+      "id": "minecraft:creaking_heart",
+      "count": 1
+    },
+    "category": "misc",
+    "type": "minecraft:crafting_shaped"
+  },
+  {
     "category": "misc",
     "result": {
       "id": "minecraft:creeper_banner_pattern",
@@ -3605,7 +4068,7 @@
   {
     "key": {
       "#": "minecraft:stripped_crimson_stem",
-      "X": "minecraft:chain"
+      "X": "minecraft:iron_chain"
     },
     "pattern": [
       "X X",
@@ -3661,6 +4124,23 @@
     },
     "group": "wooden_pressure_plate",
     "category": "redstone",
+    "type": "minecraft:crafting_shaped"
+  },
+  {
+    "key": {
+      "#": "minecraft:stripped_crimson_stem"
+    },
+    "pattern": [
+      "###",
+      "   ",
+      "###"
+    ],
+    "result": {
+      "id": "minecraft:crimson_shelf",
+      "count": 6
+    },
+    "group": "shelf",
+    "category": "misc",
     "type": "minecraft:crafting_shaped"
   },
   {
@@ -3977,7 +4457,9 @@
   {
     "input": "#minecraft:bundles",
     "material": "minecraft:cyan_dye",
-    "result": "minecraft:cyan_bundle",
+    "result": {
+      "id": "minecraft:cyan_bundle"
+    },
     "group": "bundle_dye",
     "category": "equipment",
     "type": "minecraft:crafting_transmute"
@@ -4066,9 +4548,29 @@
     "type": "minecraft:smelting"
   },
   {
+    "key": {
+      "#": "minecraft:cyan_wool",
+      "G": "minecraft:glass",
+      "L": "minecraft:leather"
+    },
+    "pattern": [
+      "LLL",
+      "G#G"
+    ],
+    "result": {
+      "id": "minecraft:cyan_harness",
+      "count": 1
+    },
+    "group": "harness",
+    "category": "equipment",
+    "type": "minecraft:crafting_shaped"
+  },
+  {
     "input": "#minecraft:shulker_boxes",
     "material": "minecraft:cyan_dye",
-    "result": "minecraft:cyan_shulker_box",
+    "result": {
+      "id": "minecraft:cyan_shulker_box"
+    },
     "group": "shulker_box_dye",
     "category": "misc",
     "type": "minecraft:crafting_transmute"
@@ -4238,7 +4740,7 @@
   {
     "key": {
       "#": "minecraft:stripped_dark_oak_log",
-      "X": "minecraft:chain"
+      "X": "minecraft:iron_chain"
     },
     "pattern": [
       "X X",
@@ -4278,6 +4780,23 @@
     },
     "group": "wooden_pressure_plate",
     "category": "redstone",
+    "type": "minecraft:crafting_shaped"
+  },
+  {
+    "key": {
+      "#": "minecraft:stripped_dark_oak_log"
+    },
+    "pattern": [
+      "###",
+      "   ",
+      "###"
+    ],
+    "result": {
+      "id": "minecraft:dark_oak_shelf",
+      "count": 6
+    },
+    "group": "shelf",
+    "category": "misc",
     "type": "minecraft:crafting_shaped"
   },
   {
@@ -5141,6 +5660,24 @@
     "type": "minecraft:crafting_shaped"
   },
   {
+    "key": {
+      "#": "minecraft:ghast_tear",
+      "X": "minecraft:soul_sand"
+    },
+    "pattern": [
+      "###",
+      "#X#",
+      "###"
+    ],
+    "result": {
+      "id": "minecraft:dried_ghast",
+      "count": 1
+    },
+    "group": "dry_ghast",
+    "category": "building",
+    "type": "minecraft:crafting_shaped"
+  },
+  {
     "category": "misc",
     "result": {
       "id": "minecraft:dried_kelp",
@@ -5251,11 +5788,12 @@
     "template": "minecraft:dune_armor_trim_smithing_template",
     "base": "#minecraft:trimmable_armor",
     "addition": "#minecraft:trim_materials",
+    "pattern": "minecraft:dune",
     "type": "minecraft:smithing_trim"
   },
   {
-    "group": "bed",
-    "category": "building",
+    "group": "bed_dye",
+    "category": "misc",
     "result": {
       "id": "minecraft:black_bed",
       "count": 1
@@ -5283,8 +5821,8 @@
     "type": "minecraft:crafting_shapeless"
   },
   {
-    "group": "carpet",
-    "category": "building",
+    "group": "carpet_dye",
+    "category": "misc",
     "result": {
       "id": "minecraft:black_carpet",
       "count": 1
@@ -5307,6 +5845,35 @@
         "minecraft:red_carpet",
         "minecraft:yellow_carpet",
         "minecraft:white_carpet"
+      ]
+    ],
+    "type": "minecraft:crafting_shapeless"
+  },
+  {
+    "group": "harness_dye",
+    "category": "equipment",
+    "result": {
+      "id": "minecraft:black_harness",
+      "count": 1
+    },
+    "ingredients": [
+      "minecraft:black_dye",
+      [
+        "minecraft:blue_harness",
+        "minecraft:brown_harness",
+        "minecraft:cyan_harness",
+        "minecraft:gray_harness",
+        "minecraft:green_harness",
+        "minecraft:light_blue_harness",
+        "minecraft:light_gray_harness",
+        "minecraft:lime_harness",
+        "minecraft:magenta_harness",
+        "minecraft:orange_harness",
+        "minecraft:pink_harness",
+        "minecraft:purple_harness",
+        "minecraft:red_harness",
+        "minecraft:yellow_harness",
+        "minecraft:white_harness"
       ]
     ],
     "type": "minecraft:crafting_shapeless"
@@ -5341,8 +5908,8 @@
     "type": "minecraft:crafting_shapeless"
   },
   {
-    "group": "bed",
-    "category": "building",
+    "group": "bed_dye",
+    "category": "misc",
     "result": {
       "id": "minecraft:blue_bed",
       "count": 1
@@ -5370,8 +5937,8 @@
     "type": "minecraft:crafting_shapeless"
   },
   {
-    "group": "carpet",
-    "category": "building",
+    "group": "carpet_dye",
+    "category": "misc",
     "result": {
       "id": "minecraft:blue_carpet",
       "count": 1
@@ -5394,6 +5961,35 @@
         "minecraft:red_carpet",
         "minecraft:yellow_carpet",
         "minecraft:white_carpet"
+      ]
+    ],
+    "type": "minecraft:crafting_shapeless"
+  },
+  {
+    "group": "harness_dye",
+    "category": "equipment",
+    "result": {
+      "id": "minecraft:blue_harness",
+      "count": 1
+    },
+    "ingredients": [
+      "minecraft:blue_dye",
+      [
+        "minecraft:black_harness",
+        "minecraft:brown_harness",
+        "minecraft:cyan_harness",
+        "minecraft:gray_harness",
+        "minecraft:green_harness",
+        "minecraft:light_blue_harness",
+        "minecraft:light_gray_harness",
+        "minecraft:lime_harness",
+        "minecraft:magenta_harness",
+        "minecraft:orange_harness",
+        "minecraft:pink_harness",
+        "minecraft:purple_harness",
+        "minecraft:red_harness",
+        "minecraft:yellow_harness",
+        "minecraft:white_harness"
       ]
     ],
     "type": "minecraft:crafting_shapeless"
@@ -5428,8 +6024,8 @@
     "type": "minecraft:crafting_shapeless"
   },
   {
-    "group": "bed",
-    "category": "building",
+    "group": "bed_dye",
+    "category": "misc",
     "result": {
       "id": "minecraft:brown_bed",
       "count": 1
@@ -5457,8 +6053,8 @@
     "type": "minecraft:crafting_shapeless"
   },
   {
-    "group": "carpet",
-    "category": "building",
+    "group": "carpet_dye",
+    "category": "misc",
     "result": {
       "id": "minecraft:brown_carpet",
       "count": 1
@@ -5481,6 +6077,35 @@
         "minecraft:red_carpet",
         "minecraft:yellow_carpet",
         "minecraft:white_carpet"
+      ]
+    ],
+    "type": "minecraft:crafting_shapeless"
+  },
+  {
+    "group": "harness_dye",
+    "category": "equipment",
+    "result": {
+      "id": "minecraft:brown_harness",
+      "count": 1
+    },
+    "ingredients": [
+      "minecraft:brown_dye",
+      [
+        "minecraft:black_harness",
+        "minecraft:blue_harness",
+        "minecraft:cyan_harness",
+        "minecraft:gray_harness",
+        "minecraft:green_harness",
+        "minecraft:light_blue_harness",
+        "minecraft:light_gray_harness",
+        "minecraft:lime_harness",
+        "minecraft:magenta_harness",
+        "minecraft:orange_harness",
+        "minecraft:pink_harness",
+        "minecraft:purple_harness",
+        "minecraft:red_harness",
+        "minecraft:yellow_harness",
+        "minecraft:white_harness"
       ]
     ],
     "type": "minecraft:crafting_shapeless"
@@ -5515,8 +6140,8 @@
     "type": "minecraft:crafting_shapeless"
   },
   {
-    "group": "bed",
-    "category": "building",
+    "group": "bed_dye",
+    "category": "misc",
     "result": {
       "id": "minecraft:cyan_bed",
       "count": 1
@@ -5544,8 +6169,8 @@
     "type": "minecraft:crafting_shapeless"
   },
   {
-    "group": "carpet",
-    "category": "building",
+    "group": "carpet_dye",
+    "category": "misc",
     "result": {
       "id": "minecraft:cyan_carpet",
       "count": 1
@@ -5568,6 +6193,35 @@
         "minecraft:red_carpet",
         "minecraft:yellow_carpet",
         "minecraft:white_carpet"
+      ]
+    ],
+    "type": "minecraft:crafting_shapeless"
+  },
+  {
+    "group": "harness_dye",
+    "category": "equipment",
+    "result": {
+      "id": "minecraft:cyan_harness",
+      "count": 1
+    },
+    "ingredients": [
+      "minecraft:cyan_dye",
+      [
+        "minecraft:black_harness",
+        "minecraft:blue_harness",
+        "minecraft:brown_harness",
+        "minecraft:gray_harness",
+        "minecraft:green_harness",
+        "minecraft:light_blue_harness",
+        "minecraft:light_gray_harness",
+        "minecraft:lime_harness",
+        "minecraft:magenta_harness",
+        "minecraft:orange_harness",
+        "minecraft:pink_harness",
+        "minecraft:purple_harness",
+        "minecraft:red_harness",
+        "minecraft:yellow_harness",
+        "minecraft:white_harness"
       ]
     ],
     "type": "minecraft:crafting_shapeless"
@@ -5602,8 +6256,8 @@
     "type": "minecraft:crafting_shapeless"
   },
   {
-    "group": "bed",
-    "category": "building",
+    "group": "bed_dye",
+    "category": "misc",
     "result": {
       "id": "minecraft:gray_bed",
       "count": 1
@@ -5631,8 +6285,8 @@
     "type": "minecraft:crafting_shapeless"
   },
   {
-    "group": "carpet",
-    "category": "building",
+    "group": "carpet_dye",
+    "category": "misc",
     "result": {
       "id": "minecraft:gray_carpet",
       "count": 1
@@ -5655,6 +6309,35 @@
         "minecraft:red_carpet",
         "minecraft:yellow_carpet",
         "minecraft:white_carpet"
+      ]
+    ],
+    "type": "minecraft:crafting_shapeless"
+  },
+  {
+    "group": "harness_dye",
+    "category": "equipment",
+    "result": {
+      "id": "minecraft:gray_harness",
+      "count": 1
+    },
+    "ingredients": [
+      "minecraft:gray_dye",
+      [
+        "minecraft:black_harness",
+        "minecraft:blue_harness",
+        "minecraft:brown_harness",
+        "minecraft:cyan_harness",
+        "minecraft:green_harness",
+        "minecraft:light_blue_harness",
+        "minecraft:light_gray_harness",
+        "minecraft:lime_harness",
+        "minecraft:magenta_harness",
+        "minecraft:orange_harness",
+        "minecraft:pink_harness",
+        "minecraft:purple_harness",
+        "minecraft:red_harness",
+        "minecraft:yellow_harness",
+        "minecraft:white_harness"
       ]
     ],
     "type": "minecraft:crafting_shapeless"
@@ -5689,8 +6372,8 @@
     "type": "minecraft:crafting_shapeless"
   },
   {
-    "group": "bed",
-    "category": "building",
+    "group": "bed_dye",
+    "category": "misc",
     "result": {
       "id": "minecraft:green_bed",
       "count": 1
@@ -5718,8 +6401,8 @@
     "type": "minecraft:crafting_shapeless"
   },
   {
-    "group": "carpet",
-    "category": "building",
+    "group": "carpet_dye",
+    "category": "misc",
     "result": {
       "id": "minecraft:green_carpet",
       "count": 1
@@ -5742,6 +6425,35 @@
         "minecraft:red_carpet",
         "minecraft:yellow_carpet",
         "minecraft:white_carpet"
+      ]
+    ],
+    "type": "minecraft:crafting_shapeless"
+  },
+  {
+    "group": "harness_dye",
+    "category": "equipment",
+    "result": {
+      "id": "minecraft:green_harness",
+      "count": 1
+    },
+    "ingredients": [
+      "minecraft:green_dye",
+      [
+        "minecraft:black_harness",
+        "minecraft:blue_harness",
+        "minecraft:brown_harness",
+        "minecraft:cyan_harness",
+        "minecraft:gray_harness",
+        "minecraft:light_blue_harness",
+        "minecraft:light_gray_harness",
+        "minecraft:lime_harness",
+        "minecraft:magenta_harness",
+        "minecraft:orange_harness",
+        "minecraft:pink_harness",
+        "minecraft:purple_harness",
+        "minecraft:red_harness",
+        "minecraft:yellow_harness",
+        "minecraft:white_harness"
       ]
     ],
     "type": "minecraft:crafting_shapeless"
@@ -5776,8 +6488,8 @@
     "type": "minecraft:crafting_shapeless"
   },
   {
-    "group": "bed",
-    "category": "building",
+    "group": "bed_dye",
+    "category": "misc",
     "result": {
       "id": "minecraft:light_blue_bed",
       "count": 1
@@ -5805,8 +6517,8 @@
     "type": "minecraft:crafting_shapeless"
   },
   {
-    "group": "carpet",
-    "category": "building",
+    "group": "carpet_dye",
+    "category": "misc",
     "result": {
       "id": "minecraft:light_blue_carpet",
       "count": 1
@@ -5829,6 +6541,35 @@
         "minecraft:red_carpet",
         "minecraft:yellow_carpet",
         "minecraft:white_carpet"
+      ]
+    ],
+    "type": "minecraft:crafting_shapeless"
+  },
+  {
+    "group": "harness_dye",
+    "category": "equipment",
+    "result": {
+      "id": "minecraft:light_blue_harness",
+      "count": 1
+    },
+    "ingredients": [
+      "minecraft:light_blue_dye",
+      [
+        "minecraft:black_harness",
+        "minecraft:blue_harness",
+        "minecraft:brown_harness",
+        "minecraft:cyan_harness",
+        "minecraft:gray_harness",
+        "minecraft:green_harness",
+        "minecraft:light_gray_harness",
+        "minecraft:lime_harness",
+        "minecraft:magenta_harness",
+        "minecraft:orange_harness",
+        "minecraft:pink_harness",
+        "minecraft:purple_harness",
+        "minecraft:red_harness",
+        "minecraft:yellow_harness",
+        "minecraft:white_harness"
       ]
     ],
     "type": "minecraft:crafting_shapeless"
@@ -5863,8 +6604,8 @@
     "type": "minecraft:crafting_shapeless"
   },
   {
-    "group": "bed",
-    "category": "building",
+    "group": "bed_dye",
+    "category": "misc",
     "result": {
       "id": "minecraft:light_gray_bed",
       "count": 1
@@ -5892,8 +6633,8 @@
     "type": "minecraft:crafting_shapeless"
   },
   {
-    "group": "carpet",
-    "category": "building",
+    "group": "carpet_dye",
+    "category": "misc",
     "result": {
       "id": "minecraft:light_gray_carpet",
       "count": 1
@@ -5916,6 +6657,35 @@
         "minecraft:red_carpet",
         "minecraft:yellow_carpet",
         "minecraft:white_carpet"
+      ]
+    ],
+    "type": "minecraft:crafting_shapeless"
+  },
+  {
+    "group": "harness_dye",
+    "category": "equipment",
+    "result": {
+      "id": "minecraft:light_gray_harness",
+      "count": 1
+    },
+    "ingredients": [
+      "minecraft:light_gray_dye",
+      [
+        "minecraft:black_harness",
+        "minecraft:blue_harness",
+        "minecraft:brown_harness",
+        "minecraft:cyan_harness",
+        "minecraft:gray_harness",
+        "minecraft:green_harness",
+        "minecraft:light_blue_harness",
+        "minecraft:lime_harness",
+        "minecraft:magenta_harness",
+        "minecraft:orange_harness",
+        "minecraft:pink_harness",
+        "minecraft:purple_harness",
+        "minecraft:red_harness",
+        "minecraft:yellow_harness",
+        "minecraft:white_harness"
       ]
     ],
     "type": "minecraft:crafting_shapeless"
@@ -5950,8 +6720,8 @@
     "type": "minecraft:crafting_shapeless"
   },
   {
-    "group": "bed",
-    "category": "building",
+    "group": "bed_dye",
+    "category": "misc",
     "result": {
       "id": "minecraft:lime_bed",
       "count": 1
@@ -5979,8 +6749,8 @@
     "type": "minecraft:crafting_shapeless"
   },
   {
-    "group": "carpet",
-    "category": "building",
+    "group": "carpet_dye",
+    "category": "misc",
     "result": {
       "id": "minecraft:lime_carpet",
       "count": 1
@@ -6003,6 +6773,35 @@
         "minecraft:red_carpet",
         "minecraft:yellow_carpet",
         "minecraft:white_carpet"
+      ]
+    ],
+    "type": "minecraft:crafting_shapeless"
+  },
+  {
+    "group": "harness_dye",
+    "category": "equipment",
+    "result": {
+      "id": "minecraft:lime_harness",
+      "count": 1
+    },
+    "ingredients": [
+      "minecraft:lime_dye",
+      [
+        "minecraft:black_harness",
+        "minecraft:blue_harness",
+        "minecraft:brown_harness",
+        "minecraft:cyan_harness",
+        "minecraft:gray_harness",
+        "minecraft:green_harness",
+        "minecraft:light_blue_harness",
+        "minecraft:light_gray_harness",
+        "minecraft:magenta_harness",
+        "minecraft:orange_harness",
+        "minecraft:pink_harness",
+        "minecraft:purple_harness",
+        "minecraft:red_harness",
+        "minecraft:yellow_harness",
+        "minecraft:white_harness"
       ]
     ],
     "type": "minecraft:crafting_shapeless"
@@ -6037,8 +6836,8 @@
     "type": "minecraft:crafting_shapeless"
   },
   {
-    "group": "bed",
-    "category": "building",
+    "group": "bed_dye",
+    "category": "misc",
     "result": {
       "id": "minecraft:magenta_bed",
       "count": 1
@@ -6066,8 +6865,8 @@
     "type": "minecraft:crafting_shapeless"
   },
   {
-    "group": "carpet",
-    "category": "building",
+    "group": "carpet_dye",
+    "category": "misc",
     "result": {
       "id": "minecraft:magenta_carpet",
       "count": 1
@@ -6090,6 +6889,35 @@
         "minecraft:red_carpet",
         "minecraft:yellow_carpet",
         "minecraft:white_carpet"
+      ]
+    ],
+    "type": "minecraft:crafting_shapeless"
+  },
+  {
+    "group": "harness_dye",
+    "category": "equipment",
+    "result": {
+      "id": "minecraft:magenta_harness",
+      "count": 1
+    },
+    "ingredients": [
+      "minecraft:magenta_dye",
+      [
+        "minecraft:black_harness",
+        "minecraft:blue_harness",
+        "minecraft:brown_harness",
+        "minecraft:cyan_harness",
+        "minecraft:gray_harness",
+        "minecraft:green_harness",
+        "minecraft:light_blue_harness",
+        "minecraft:light_gray_harness",
+        "minecraft:lime_harness",
+        "minecraft:orange_harness",
+        "minecraft:pink_harness",
+        "minecraft:purple_harness",
+        "minecraft:red_harness",
+        "minecraft:yellow_harness",
+        "minecraft:white_harness"
       ]
     ],
     "type": "minecraft:crafting_shapeless"
@@ -6124,8 +6952,8 @@
     "type": "minecraft:crafting_shapeless"
   },
   {
-    "group": "bed",
-    "category": "building",
+    "group": "bed_dye",
+    "category": "misc",
     "result": {
       "id": "minecraft:orange_bed",
       "count": 1
@@ -6153,8 +6981,8 @@
     "type": "minecraft:crafting_shapeless"
   },
   {
-    "group": "carpet",
-    "category": "building",
+    "group": "carpet_dye",
+    "category": "misc",
     "result": {
       "id": "minecraft:orange_carpet",
       "count": 1
@@ -6177,6 +7005,35 @@
         "minecraft:red_carpet",
         "minecraft:yellow_carpet",
         "minecraft:white_carpet"
+      ]
+    ],
+    "type": "minecraft:crafting_shapeless"
+  },
+  {
+    "group": "harness_dye",
+    "category": "equipment",
+    "result": {
+      "id": "minecraft:orange_harness",
+      "count": 1
+    },
+    "ingredients": [
+      "minecraft:orange_dye",
+      [
+        "minecraft:black_harness",
+        "minecraft:blue_harness",
+        "minecraft:brown_harness",
+        "minecraft:cyan_harness",
+        "minecraft:gray_harness",
+        "minecraft:green_harness",
+        "minecraft:light_blue_harness",
+        "minecraft:light_gray_harness",
+        "minecraft:lime_harness",
+        "minecraft:magenta_harness",
+        "minecraft:pink_harness",
+        "minecraft:purple_harness",
+        "minecraft:red_harness",
+        "minecraft:yellow_harness",
+        "minecraft:white_harness"
       ]
     ],
     "type": "minecraft:crafting_shapeless"
@@ -6211,8 +7068,8 @@
     "type": "minecraft:crafting_shapeless"
   },
   {
-    "group": "bed",
-    "category": "building",
+    "group": "bed_dye",
+    "category": "misc",
     "result": {
       "id": "minecraft:pink_bed",
       "count": 1
@@ -6240,8 +7097,8 @@
     "type": "minecraft:crafting_shapeless"
   },
   {
-    "group": "carpet",
-    "category": "building",
+    "group": "carpet_dye",
+    "category": "misc",
     "result": {
       "id": "minecraft:pink_carpet",
       "count": 1
@@ -6264,6 +7121,35 @@
         "minecraft:red_carpet",
         "minecraft:yellow_carpet",
         "minecraft:white_carpet"
+      ]
+    ],
+    "type": "minecraft:crafting_shapeless"
+  },
+  {
+    "group": "harness_dye",
+    "category": "equipment",
+    "result": {
+      "id": "minecraft:pink_harness",
+      "count": 1
+    },
+    "ingredients": [
+      "minecraft:pink_dye",
+      [
+        "minecraft:black_harness",
+        "minecraft:blue_harness",
+        "minecraft:brown_harness",
+        "minecraft:cyan_harness",
+        "minecraft:gray_harness",
+        "minecraft:green_harness",
+        "minecraft:light_blue_harness",
+        "minecraft:light_gray_harness",
+        "minecraft:lime_harness",
+        "minecraft:magenta_harness",
+        "minecraft:orange_harness",
+        "minecraft:purple_harness",
+        "minecraft:red_harness",
+        "minecraft:yellow_harness",
+        "minecraft:white_harness"
       ]
     ],
     "type": "minecraft:crafting_shapeless"
@@ -6298,8 +7184,8 @@
     "type": "minecraft:crafting_shapeless"
   },
   {
-    "group": "bed",
-    "category": "building",
+    "group": "bed_dye",
+    "category": "misc",
     "result": {
       "id": "minecraft:purple_bed",
       "count": 1
@@ -6327,8 +7213,8 @@
     "type": "minecraft:crafting_shapeless"
   },
   {
-    "group": "carpet",
-    "category": "building",
+    "group": "carpet_dye",
+    "category": "misc",
     "result": {
       "id": "minecraft:purple_carpet",
       "count": 1
@@ -6351,6 +7237,35 @@
         "minecraft:red_carpet",
         "minecraft:yellow_carpet",
         "minecraft:white_carpet"
+      ]
+    ],
+    "type": "minecraft:crafting_shapeless"
+  },
+  {
+    "group": "harness_dye",
+    "category": "equipment",
+    "result": {
+      "id": "minecraft:purple_harness",
+      "count": 1
+    },
+    "ingredients": [
+      "minecraft:purple_dye",
+      [
+        "minecraft:black_harness",
+        "minecraft:blue_harness",
+        "minecraft:brown_harness",
+        "minecraft:cyan_harness",
+        "minecraft:gray_harness",
+        "minecraft:green_harness",
+        "minecraft:light_blue_harness",
+        "minecraft:light_gray_harness",
+        "minecraft:lime_harness",
+        "minecraft:magenta_harness",
+        "minecraft:orange_harness",
+        "minecraft:pink_harness",
+        "minecraft:red_harness",
+        "minecraft:yellow_harness",
+        "minecraft:white_harness"
       ]
     ],
     "type": "minecraft:crafting_shapeless"
@@ -6385,8 +7300,8 @@
     "type": "minecraft:crafting_shapeless"
   },
   {
-    "group": "bed",
-    "category": "building",
+    "group": "bed_dye",
+    "category": "misc",
     "result": {
       "id": "minecraft:red_bed",
       "count": 1
@@ -6414,8 +7329,8 @@
     "type": "minecraft:crafting_shapeless"
   },
   {
-    "group": "carpet",
-    "category": "building",
+    "group": "carpet_dye",
+    "category": "misc",
     "result": {
       "id": "minecraft:red_carpet",
       "count": 1
@@ -6438,6 +7353,35 @@
         "minecraft:purple_carpet",
         "minecraft:yellow_carpet",
         "minecraft:white_carpet"
+      ]
+    ],
+    "type": "minecraft:crafting_shapeless"
+  },
+  {
+    "group": "harness_dye",
+    "category": "equipment",
+    "result": {
+      "id": "minecraft:red_harness",
+      "count": 1
+    },
+    "ingredients": [
+      "minecraft:red_dye",
+      [
+        "minecraft:black_harness",
+        "minecraft:blue_harness",
+        "minecraft:brown_harness",
+        "minecraft:cyan_harness",
+        "minecraft:gray_harness",
+        "minecraft:green_harness",
+        "minecraft:light_blue_harness",
+        "minecraft:light_gray_harness",
+        "minecraft:lime_harness",
+        "minecraft:magenta_harness",
+        "minecraft:orange_harness",
+        "minecraft:pink_harness",
+        "minecraft:purple_harness",
+        "minecraft:yellow_harness",
+        "minecraft:white_harness"
       ]
     ],
     "type": "minecraft:crafting_shapeless"
@@ -6472,8 +7416,8 @@
     "type": "minecraft:crafting_shapeless"
   },
   {
-    "group": "bed",
-    "category": "building",
+    "group": "bed_dye",
+    "category": "misc",
     "result": {
       "id": "minecraft:white_bed",
       "count": 1
@@ -6501,8 +7445,8 @@
     "type": "minecraft:crafting_shapeless"
   },
   {
-    "group": "carpet",
-    "category": "building",
+    "group": "carpet_dye",
+    "category": "misc",
     "result": {
       "id": "minecraft:white_carpet",
       "count": 1
@@ -6525,6 +7469,35 @@
         "minecraft:purple_carpet",
         "minecraft:red_carpet",
         "minecraft:yellow_carpet"
+      ]
+    ],
+    "type": "minecraft:crafting_shapeless"
+  },
+  {
+    "group": "harness_dye",
+    "category": "equipment",
+    "result": {
+      "id": "minecraft:white_harness",
+      "count": 1
+    },
+    "ingredients": [
+      "minecraft:white_dye",
+      [
+        "minecraft:black_harness",
+        "minecraft:blue_harness",
+        "minecraft:brown_harness",
+        "minecraft:cyan_harness",
+        "minecraft:gray_harness",
+        "minecraft:green_harness",
+        "minecraft:light_blue_harness",
+        "minecraft:light_gray_harness",
+        "minecraft:lime_harness",
+        "minecraft:magenta_harness",
+        "minecraft:orange_harness",
+        "minecraft:pink_harness",
+        "minecraft:purple_harness",
+        "minecraft:red_harness",
+        "minecraft:yellow_harness"
       ]
     ],
     "type": "minecraft:crafting_shapeless"
@@ -6559,8 +7532,8 @@
     "type": "minecraft:crafting_shapeless"
   },
   {
-    "group": "bed",
-    "category": "building",
+    "group": "bed_dye",
+    "category": "misc",
     "result": {
       "id": "minecraft:yellow_bed",
       "count": 1
@@ -6588,8 +7561,8 @@
     "type": "minecraft:crafting_shapeless"
   },
   {
-    "group": "carpet",
-    "category": "building",
+    "group": "carpet_dye",
+    "category": "misc",
     "result": {
       "id": "minecraft:yellow_carpet",
       "count": 1
@@ -6612,6 +7585,35 @@
         "minecraft:purple_carpet",
         "minecraft:red_carpet",
         "minecraft:white_carpet"
+      ]
+    ],
+    "type": "minecraft:crafting_shapeless"
+  },
+  {
+    "group": "harness_dye",
+    "category": "equipment",
+    "result": {
+      "id": "minecraft:yellow_harness",
+      "count": 1
+    },
+    "ingredients": [
+      "minecraft:yellow_dye",
+      [
+        "minecraft:black_harness",
+        "minecraft:blue_harness",
+        "minecraft:brown_harness",
+        "minecraft:cyan_harness",
+        "minecraft:gray_harness",
+        "minecraft:green_harness",
+        "minecraft:light_blue_harness",
+        "minecraft:light_gray_harness",
+        "minecraft:lime_harness",
+        "minecraft:magenta_harness",
+        "minecraft:orange_harness",
+        "minecraft:pink_harness",
+        "minecraft:purple_harness",
+        "minecraft:red_harness",
+        "minecraft:white_harness"
       ]
     ],
     "type": "minecraft:crafting_shapeless"
@@ -7093,6 +8095,7 @@
     "template": "minecraft:eye_armor_trim_smithing_template",
     "base": "#minecraft:trimmable_armor",
     "addition": "#minecraft:trim_materials",
+    "pattern": "minecraft:eye",
     "type": "minecraft:smithing_trim"
   },
   {
@@ -7228,6 +8231,7 @@
     "template": "minecraft:flow_armor_trim_smithing_template",
     "base": "#minecraft:trimmable_armor",
     "addition": "#minecraft:trim_materials",
+    "pattern": "minecraft:flow",
     "type": "minecraft:smithing_trim"
   },
   {
@@ -7855,7 +8859,9 @@
   {
     "input": "#minecraft:bundles",
     "material": "minecraft:gray_dye",
-    "result": "minecraft:gray_bundle",
+    "result": {
+      "id": "minecraft:gray_bundle"
+    },
     "group": "bundle_dye",
     "category": "equipment",
     "type": "minecraft:crafting_transmute"
@@ -7909,6 +8915,7 @@
     "type": "minecraft:crafting_shapeless"
   },
   {
+    "group": "gray_dye",
     "category": "misc",
     "result": {
       "id": "minecraft:gray_dye",
@@ -7917,6 +8924,18 @@
     "ingredients": [
       "minecraft:black_dye",
       "minecraft:white_dye"
+    ],
+    "type": "minecraft:crafting_shapeless"
+  },
+  {
+    "group": "gray_dye",
+    "category": "misc",
+    "result": {
+      "id": "minecraft:gray_dye",
+      "count": 1
+    },
+    "ingredients": [
+      "minecraft:closed_eyeblossom"
     ],
     "type": "minecraft:crafting_shapeless"
   },
@@ -7931,9 +8950,29 @@
     "type": "minecraft:smelting"
   },
   {
+    "key": {
+      "#": "minecraft:gray_wool",
+      "G": "minecraft:glass",
+      "L": "minecraft:leather"
+    },
+    "pattern": [
+      "LLL",
+      "G#G"
+    ],
+    "result": {
+      "id": "minecraft:gray_harness",
+      "count": 1
+    },
+    "group": "harness",
+    "category": "equipment",
+    "type": "minecraft:crafting_shaped"
+  },
+  {
     "input": "#minecraft:shulker_boxes",
     "material": "minecraft:gray_dye",
-    "result": "minecraft:gray_shulker_box",
+    "result": {
+      "id": "minecraft:gray_shulker_box"
+    },
     "group": "shulker_box_dye",
     "category": "misc",
     "type": "minecraft:crafting_transmute"
@@ -8046,7 +9085,9 @@
   {
     "input": "#minecraft:bundles",
     "material": "minecraft:green_dye",
-    "result": "minecraft:green_bundle",
+    "result": {
+      "id": "minecraft:green_bundle"
+    },
     "group": "bundle_dye",
     "category": "equipment",
     "type": "minecraft:crafting_transmute"
@@ -8120,9 +9161,29 @@
     "type": "minecraft:smelting"
   },
   {
+    "key": {
+      "#": "minecraft:green_wool",
+      "G": "minecraft:glass",
+      "L": "minecraft:leather"
+    },
+    "pattern": [
+      "LLL",
+      "G#G"
+    ],
+    "result": {
+      "id": "minecraft:green_harness",
+      "count": 1
+    },
+    "group": "harness",
+    "category": "equipment",
+    "type": "minecraft:crafting_shaped"
+  },
+  {
     "input": "#minecraft:shulker_boxes",
     "material": "minecraft:green_dye",
-    "result": "minecraft:green_shulker_box",
+    "result": {
+      "id": "minecraft:green_shulker_box"
+    },
     "group": "shulker_box_dye",
     "category": "misc",
     "type": "minecraft:crafting_transmute"
@@ -8343,6 +9404,7 @@
     "template": "minecraft:host_armor_trim_smithing_template",
     "base": "#minecraft:trimmable_armor",
     "addition": "#minecraft:trim_materials",
+    "pattern": "minecraft:host",
     "type": "minecraft:smithing_trim"
   },
   {
@@ -8406,6 +9468,23 @@
       "count": 1
     },
     "category": "equipment",
+    "type": "minecraft:crafting_shaped"
+  },
+  {
+    "key": {
+      "I": "minecraft:iron_ingot",
+      "N": "minecraft:iron_nugget"
+    },
+    "pattern": [
+      "N",
+      "I",
+      "N"
+    ],
+    "result": {
+      "id": "minecraft:iron_chain",
+      "count": 1
+    },
+    "category": "misc",
     "type": "minecraft:crafting_shaped"
   },
   {
@@ -8855,7 +9934,7 @@
   {
     "key": {
       "#": "minecraft:stripped_jungle_log",
-      "X": "minecraft:chain"
+      "X": "minecraft:iron_chain"
     },
     "pattern": [
       "X X",
@@ -8895,6 +9974,23 @@
     },
     "group": "wooden_pressure_plate",
     "category": "redstone",
+    "type": "minecraft:crafting_shaped"
+  },
+  {
+    "key": {
+      "#": "minecraft:stripped_jungle_log"
+    },
+    "pattern": [
+      "###",
+      "   ",
+      "###"
+    ],
+    "result": {
+      "id": "minecraft:jungle_shelf",
+      "count": 6
+    },
+    "group": "shelf",
+    "category": "misc",
     "type": "minecraft:crafting_shaped"
   },
   {
@@ -9085,12 +10181,11 @@
   },
   {
     "key": {
-      "O": "minecraft:slime_ball",
       "~": "minecraft:string"
     },
     "pattern": [
       "~~ ",
-      "~O ",
+      "~~ ",
       "  ~"
     ],
     "result": {
@@ -9099,6 +10194,16 @@
     },
     "category": "equipment",
     "type": "minecraft:crafting_shaped"
+  },
+  {
+    "result": {
+      "id": "minecraft:leaf_litter"
+    },
+    "experience": 0.1,
+    "cookingtime": 200,
+    "category": "blocks",
+    "ingredient": "#minecraft:leaves",
+    "type": "minecraft:smelting"
   },
   {
     "key": {
@@ -9264,7 +10369,9 @@
   {
     "input": "#minecraft:bundles",
     "material": "minecraft:light_blue_dye",
-    "result": "minecraft:light_blue_bundle",
+    "result": {
+      "id": "minecraft:light_blue_bundle"
+    },
     "group": "bundle_dye",
     "category": "equipment",
     "type": "minecraft:crafting_transmute"
@@ -9353,9 +10460,29 @@
     "type": "minecraft:smelting"
   },
   {
+    "key": {
+      "#": "minecraft:light_blue_wool",
+      "G": "minecraft:glass",
+      "L": "minecraft:leather"
+    },
+    "pattern": [
+      "LLL",
+      "G#G"
+    ],
+    "result": {
+      "id": "minecraft:light_blue_harness",
+      "count": 1
+    },
+    "group": "harness",
+    "category": "equipment",
+    "type": "minecraft:crafting_shaped"
+  },
+  {
     "input": "#minecraft:shulker_boxes",
     "material": "minecraft:light_blue_dye",
-    "result": "minecraft:light_blue_shulker_box",
+    "result": {
+      "id": "minecraft:light_blue_shulker_box"
+    },
     "group": "shulker_box_dye",
     "category": "misc",
     "type": "minecraft:crafting_transmute"
@@ -9468,7 +10595,9 @@
   {
     "input": "#minecraft:bundles",
     "material": "minecraft:light_gray_dye",
-    "result": "minecraft:light_gray_bundle",
+    "result": {
+      "id": "minecraft:light_gray_bundle"
+    },
     "group": "bundle_dye",
     "category": "equipment",
     "type": "minecraft:crafting_transmute"
@@ -9595,9 +10724,29 @@
     "type": "minecraft:smelting"
   },
   {
+    "key": {
+      "#": "minecraft:light_gray_wool",
+      "G": "minecraft:glass",
+      "L": "minecraft:leather"
+    },
+    "pattern": [
+      "LLL",
+      "G#G"
+    ],
+    "result": {
+      "id": "minecraft:light_gray_harness",
+      "count": 1
+    },
+    "group": "harness",
+    "category": "equipment",
+    "type": "minecraft:crafting_shaped"
+  },
+  {
     "input": "#minecraft:shulker_boxes",
     "material": "minecraft:light_gray_dye",
-    "result": "minecraft:light_gray_shulker_box",
+    "result": {
+      "id": "minecraft:light_gray_shulker_box"
+    },
     "group": "shulker_box_dye",
     "category": "misc",
     "type": "minecraft:crafting_transmute"
@@ -9740,7 +10889,9 @@
   {
     "input": "#minecraft:bundles",
     "material": "minecraft:lime_dye",
-    "result": "minecraft:lime_bundle",
+    "result": {
+      "id": "minecraft:lime_bundle"
+    },
     "group": "bundle_dye",
     "category": "equipment",
     "type": "minecraft:crafting_transmute"
@@ -9826,9 +10977,29 @@
     "type": "minecraft:smelting"
   },
   {
+    "key": {
+      "#": "minecraft:lime_wool",
+      "G": "minecraft:glass",
+      "L": "minecraft:leather"
+    },
+    "pattern": [
+      "LLL",
+      "G#G"
+    ],
+    "result": {
+      "id": "minecraft:lime_harness",
+      "count": 1
+    },
+    "group": "harness",
+    "category": "equipment",
+    "type": "minecraft:crafting_shaped"
+  },
+  {
     "input": "#minecraft:shulker_boxes",
     "material": "minecraft:lime_dye",
-    "result": "minecraft:lime_shulker_box",
+    "result": {
+      "id": "minecraft:lime_shulker_box"
+    },
     "group": "shulker_box_dye",
     "category": "misc",
     "type": "minecraft:crafting_transmute"
@@ -9905,7 +11076,7 @@
   },
   {
     "key": {
-      "#": "minecraft:netherite_ingot",
+      "#": "minecraft:iron_ingot",
       "S": "minecraft:chiseled_stone_bricks"
     },
     "pattern": [
@@ -9990,7 +11161,9 @@
   {
     "input": "#minecraft:bundles",
     "material": "minecraft:magenta_dye",
-    "result": "minecraft:magenta_bundle",
+    "result": {
+      "id": "minecraft:magenta_bundle"
+    },
     "group": "bundle_dye",
     "category": "equipment",
     "type": "minecraft:crafting_transmute"
@@ -10120,9 +11293,29 @@
     "type": "minecraft:smelting"
   },
   {
+    "key": {
+      "#": "minecraft:magenta_wool",
+      "G": "minecraft:glass",
+      "L": "minecraft:leather"
+    },
+    "pattern": [
+      "LLL",
+      "G#G"
+    ],
+    "result": {
+      "id": "minecraft:magenta_harness",
+      "count": 1
+    },
+    "group": "harness",
+    "category": "equipment",
+    "type": "minecraft:crafting_shaped"
+  },
+  {
     "input": "#minecraft:shulker_boxes",
     "material": "minecraft:magenta_dye",
-    "result": "minecraft:magenta_shulker_box",
+    "result": {
+      "id": "minecraft:magenta_shulker_box"
+    },
     "group": "shulker_box_dye",
     "category": "misc",
     "type": "minecraft:crafting_transmute"
@@ -10319,7 +11512,7 @@
   {
     "key": {
       "#": "minecraft:stripped_mangrove_log",
-      "X": "minecraft:chain"
+      "X": "minecraft:iron_chain"
     },
     "pattern": [
       "X X",
@@ -10359,6 +11552,23 @@
     },
     "group": "wooden_pressure_plate",
     "category": "redstone",
+    "type": "minecraft:crafting_shaped"
+  },
+  {
+    "key": {
+      "#": "minecraft:stripped_mangrove_log"
+    },
+    "pattern": [
+      "###",
+      "   ",
+      "###"
+    ],
+    "result": {
+      "id": "minecraft:mangrove_shelf",
+      "count": 6
+    },
+    "group": "shelf",
+    "category": "misc",
     "type": "minecraft:crafting_shaped"
   },
   {
@@ -10992,8 +12202,7 @@
     "base": "minecraft:diamond_axe",
     "addition": "#minecraft:netherite_tool_materials",
     "result": {
-      "id": "minecraft:netherite_axe",
-      "count": 1
+      "id": "minecraft:netherite_axe"
     },
     "type": "minecraft:smithing_transform"
   },
@@ -11018,8 +12227,7 @@
     "base": "minecraft:diamond_boots",
     "addition": "#minecraft:netherite_tool_materials",
     "result": {
-      "id": "minecraft:netherite_boots",
-      "count": 1
+      "id": "minecraft:netherite_boots"
     },
     "type": "minecraft:smithing_transform"
   },
@@ -11028,8 +12236,7 @@
     "base": "minecraft:diamond_chestplate",
     "addition": "#minecraft:netherite_tool_materials",
     "result": {
-      "id": "minecraft:netherite_chestplate",
-      "count": 1
+      "id": "minecraft:netherite_chestplate"
     },
     "type": "minecraft:smithing_transform"
   },
@@ -11038,8 +12245,7 @@
     "base": "minecraft:diamond_helmet",
     "addition": "#minecraft:netherite_tool_materials",
     "result": {
-      "id": "minecraft:netherite_helmet",
-      "count": 1
+      "id": "minecraft:netherite_helmet"
     },
     "type": "minecraft:smithing_transform"
   },
@@ -11048,8 +12254,7 @@
     "base": "minecraft:diamond_hoe",
     "addition": "#minecraft:netherite_tool_materials",
     "result": {
-      "id": "minecraft:netherite_hoe",
-      "count": 1
+      "id": "minecraft:netherite_hoe"
     },
     "type": "minecraft:smithing_transform"
   },
@@ -11089,8 +12294,7 @@
     "base": "minecraft:diamond_leggings",
     "addition": "#minecraft:netherite_tool_materials",
     "result": {
-      "id": "minecraft:netherite_leggings",
-      "count": 1
+      "id": "minecraft:netherite_leggings"
     },
     "type": "minecraft:smithing_transform"
   },
@@ -11099,8 +12303,7 @@
     "base": "minecraft:diamond_pickaxe",
     "addition": "#minecraft:netherite_tool_materials",
     "result": {
-      "id": "minecraft:netherite_pickaxe",
-      "count": 1
+      "id": "minecraft:netherite_pickaxe"
     },
     "type": "minecraft:smithing_transform"
   },
@@ -11129,8 +12332,7 @@
     "base": "minecraft:diamond_shovel",
     "addition": "#minecraft:netherite_tool_materials",
     "result": {
-      "id": "minecraft:netherite_shovel",
-      "count": 1
+      "id": "minecraft:netherite_shovel"
     },
     "type": "minecraft:smithing_transform"
   },
@@ -11139,8 +12341,7 @@
     "base": "minecraft:diamond_sword",
     "addition": "#minecraft:netherite_tool_materials",
     "result": {
-      "id": "minecraft:netherite_sword",
-      "count": 1
+      "id": "minecraft:netherite_sword"
     },
     "type": "minecraft:smithing_transform"
   },
@@ -11274,7 +12475,7 @@
   {
     "key": {
       "#": "minecraft:stripped_oak_log",
-      "X": "minecraft:chain"
+      "X": "minecraft:iron_chain"
     },
     "pattern": [
       "X X",
@@ -11314,6 +12515,23 @@
     },
     "group": "wooden_pressure_plate",
     "category": "redstone",
+    "type": "minecraft:crafting_shaped"
+  },
+  {
+    "key": {
+      "#": "minecraft:stripped_oak_log"
+    },
+    "pattern": [
+      "###",
+      "   ",
+      "###"
+    ],
+    "result": {
+      "id": "minecraft:oak_shelf",
+      "count": 6
+    },
+    "group": "shelf",
+    "category": "misc",
     "type": "minecraft:crafting_shaped"
   },
   {
@@ -11454,7 +12672,9 @@
   {
     "input": "#minecraft:bundles",
     "material": "minecraft:orange_dye",
-    "result": "minecraft:orange_bundle",
+    "result": {
+      "id": "minecraft:orange_bundle"
+    },
     "group": "bundle_dye",
     "category": "equipment",
     "type": "minecraft:crafting_transmute"
@@ -11515,6 +12735,18 @@
       "count": 1
     },
     "ingredients": [
+      "minecraft:open_eyeblossom"
+    ],
+    "type": "minecraft:crafting_shapeless"
+  },
+  {
+    "group": "orange_dye",
+    "category": "misc",
+    "result": {
+      "id": "minecraft:orange_dye",
+      "count": 1
+    },
+    "ingredients": [
       "minecraft:orange_tulip"
     ],
     "type": "minecraft:crafting_shapeless"
@@ -11555,9 +12787,29 @@
     "type": "minecraft:smelting"
   },
   {
+    "key": {
+      "#": "minecraft:orange_wool",
+      "G": "minecraft:glass",
+      "L": "minecraft:leather"
+    },
+    "pattern": [
+      "LLL",
+      "G#G"
+    ],
+    "result": {
+      "id": "minecraft:orange_harness",
+      "count": 1
+    },
+    "group": "harness",
+    "category": "equipment",
+    "type": "minecraft:crafting_shaped"
+  },
+  {
     "input": "#minecraft:shulker_boxes",
     "material": "minecraft:orange_dye",
-    "result": "minecraft:orange_shulker_box",
+    "result": {
+      "id": "minecraft:orange_shulker_box"
+    },
     "group": "shulker_box_dye",
     "category": "misc",
     "type": "minecraft:crafting_transmute"
@@ -11840,6 +13092,257 @@
   },
   {
     "key": {
+      "#": "minecraft:pale_moss_block"
+    },
+    "pattern": [
+      "##"
+    ],
+    "result": {
+      "id": "minecraft:pale_moss_carpet",
+      "count": 3
+    },
+    "group": "carpet",
+    "category": "misc",
+    "type": "minecraft:crafting_shaped"
+  },
+  {
+    "key": {
+      "#": "minecraft:pale_oak_planks"
+    },
+    "pattern": [
+      "# #",
+      "###"
+    ],
+    "result": {
+      "id": "minecraft:pale_oak_boat",
+      "count": 1
+    },
+    "group": "boat",
+    "category": "misc",
+    "type": "minecraft:crafting_shaped"
+  },
+  {
+    "group": "wooden_button",
+    "category": "redstone",
+    "result": {
+      "id": "minecraft:pale_oak_button",
+      "count": 1
+    },
+    "ingredients": [
+      "minecraft:pale_oak_planks"
+    ],
+    "type": "minecraft:crafting_shapeless"
+  },
+  {
+    "group": "chest_boat",
+    "category": "misc",
+    "result": {
+      "id": "minecraft:pale_oak_chest_boat",
+      "count": 1
+    },
+    "ingredients": [
+      "minecraft:chest",
+      "minecraft:pale_oak_boat"
+    ],
+    "type": "minecraft:crafting_shapeless"
+  },
+  {
+    "key": {
+      "#": "minecraft:pale_oak_planks"
+    },
+    "pattern": [
+      "##",
+      "##",
+      "##"
+    ],
+    "result": {
+      "id": "minecraft:pale_oak_door",
+      "count": 3
+    },
+    "group": "wooden_door",
+    "category": "redstone",
+    "type": "minecraft:crafting_shaped"
+  },
+  {
+    "key": {
+      "#": "minecraft:stick",
+      "W": "minecraft:pale_oak_planks"
+    },
+    "pattern": [
+      "W#W",
+      "W#W"
+    ],
+    "result": {
+      "id": "minecraft:pale_oak_fence",
+      "count": 3
+    },
+    "group": "wooden_fence",
+    "category": "misc",
+    "type": "minecraft:crafting_shaped"
+  },
+  {
+    "key": {
+      "#": "minecraft:stick",
+      "W": "minecraft:pale_oak_planks"
+    },
+    "pattern": [
+      "#W#",
+      "#W#"
+    ],
+    "result": {
+      "id": "minecraft:pale_oak_fence_gate",
+      "count": 1
+    },
+    "group": "wooden_fence_gate",
+    "category": "redstone",
+    "type": "minecraft:crafting_shaped"
+  },
+  {
+    "key": {
+      "#": "minecraft:stripped_pale_oak_log",
+      "X": "minecraft:iron_chain"
+    },
+    "pattern": [
+      "X X",
+      "###",
+      "###"
+    ],
+    "result": {
+      "id": "minecraft:pale_oak_hanging_sign",
+      "count": 6
+    },
+    "group": "hanging_sign",
+    "category": "misc",
+    "type": "minecraft:crafting_shaped"
+  },
+  {
+    "group": "planks",
+    "category": "building",
+    "result": {
+      "id": "minecraft:pale_oak_planks",
+      "count": 4
+    },
+    "ingredients": [
+      "#minecraft:pale_oak_logs"
+    ],
+    "type": "minecraft:crafting_shapeless"
+  },
+  {
+    "key": {
+      "#": "minecraft:pale_oak_planks"
+    },
+    "pattern": [
+      "##"
+    ],
+    "result": {
+      "id": "minecraft:pale_oak_pressure_plate",
+      "count": 1
+    },
+    "group": "wooden_pressure_plate",
+    "category": "redstone",
+    "type": "minecraft:crafting_shaped"
+  },
+  {
+    "key": {
+      "#": "minecraft:stripped_pale_oak_log"
+    },
+    "pattern": [
+      "###",
+      "   ",
+      "###"
+    ],
+    "result": {
+      "id": "minecraft:pale_oak_shelf",
+      "count": 6
+    },
+    "group": "shelf",
+    "category": "misc",
+    "type": "minecraft:crafting_shaped"
+  },
+  {
+    "key": {
+      "#": "minecraft:pale_oak_planks",
+      "X": "minecraft:stick"
+    },
+    "pattern": [
+      "###",
+      "###",
+      " X "
+    ],
+    "result": {
+      "id": "minecraft:pale_oak_sign",
+      "count": 3
+    },
+    "group": "wooden_sign",
+    "category": "misc",
+    "type": "minecraft:crafting_shaped"
+  },
+  {
+    "key": {
+      "#": "minecraft:pale_oak_planks"
+    },
+    "pattern": [
+      "###"
+    ],
+    "result": {
+      "id": "minecraft:pale_oak_slab",
+      "count": 6
+    },
+    "group": "wooden_slab",
+    "category": "building",
+    "type": "minecraft:crafting_shaped"
+  },
+  {
+    "key": {
+      "#": "minecraft:pale_oak_planks"
+    },
+    "pattern": [
+      "#  ",
+      "## ",
+      "###"
+    ],
+    "result": {
+      "id": "minecraft:pale_oak_stairs",
+      "count": 4
+    },
+    "group": "wooden_stairs",
+    "category": "building",
+    "type": "minecraft:crafting_shaped"
+  },
+  {
+    "key": {
+      "#": "minecraft:pale_oak_planks"
+    },
+    "pattern": [
+      "###",
+      "###"
+    ],
+    "result": {
+      "id": "minecraft:pale_oak_trapdoor",
+      "count": 2
+    },
+    "group": "wooden_trapdoor",
+    "category": "redstone",
+    "type": "minecraft:crafting_shaped"
+  },
+  {
+    "key": {
+      "#": "minecraft:pale_oak_log"
+    },
+    "pattern": [
+      "##",
+      "##"
+    ],
+    "result": {
+      "id": "minecraft:pale_oak_wood",
+      "count": 3
+    },
+    "group": "bark",
+    "category": "building",
+    "type": "minecraft:crafting_shaped"
+  },
+  {
+    "key": {
       "#": "minecraft:sugar_cane"
     },
     "pattern": [
@@ -11890,7 +13393,9 @@
   {
     "input": "#minecraft:bundles",
     "material": "minecraft:pink_dye",
-    "result": "minecraft:pink_bundle",
+    "result": {
+      "id": "minecraft:pink_bundle"
+    },
     "group": "bundle_dye",
     "category": "equipment",
     "type": "minecraft:crafting_transmute"
@@ -11940,6 +13445,18 @@
       "minecraft:gravel",
       "minecraft:gravel",
       "minecraft:gravel"
+    ],
+    "type": "minecraft:crafting_shapeless"
+  },
+  {
+    "group": "pink_dye",
+    "category": "misc",
+    "result": {
+      "id": "minecraft:pink_dye",
+      "count": 1
+    },
+    "ingredients": [
+      "minecraft:cactus_flower"
     ],
     "type": "minecraft:crafting_shapeless"
   },
@@ -12003,9 +13520,29 @@
     "type": "minecraft:smelting"
   },
   {
+    "key": {
+      "#": "minecraft:pink_wool",
+      "G": "minecraft:glass",
+      "L": "minecraft:leather"
+    },
+    "pattern": [
+      "LLL",
+      "G#G"
+    ],
+    "result": {
+      "id": "minecraft:pink_harness",
+      "count": 1
+    },
+    "group": "harness",
+    "category": "equipment",
+    "type": "minecraft:crafting_shaped"
+  },
+  {
     "input": "#minecraft:shulker_boxes",
     "material": "minecraft:pink_dye",
-    "result": "minecraft:pink_shulker_box",
+    "result": {
+      "id": "minecraft:pink_shulker_box"
+    },
     "group": "shulker_box_dye",
     "category": "misc",
     "type": "minecraft:crafting_transmute"
@@ -13084,7 +14621,7 @@
     "ingredients": [
       "minecraft:pumpkin",
       "minecraft:sugar",
-      "minecraft:egg"
+      "#minecraft:eggs"
     ],
     "type": "minecraft:crafting_shapeless"
   },
@@ -13137,7 +14674,9 @@
   {
     "input": "#minecraft:bundles",
     "material": "minecraft:purple_dye",
-    "result": "minecraft:purple_bundle",
+    "result": {
+      "id": "minecraft:purple_bundle"
+    },
     "group": "bundle_dye",
     "category": "equipment",
     "type": "minecraft:crafting_transmute"
@@ -13213,9 +14752,29 @@
     "type": "minecraft:smelting"
   },
   {
+    "key": {
+      "#": "minecraft:purple_wool",
+      "G": "minecraft:glass",
+      "L": "minecraft:leather"
+    },
+    "pattern": [
+      "LLL",
+      "G#G"
+    ],
+    "result": {
+      "id": "minecraft:purple_harness",
+      "count": 1
+    },
+    "group": "harness",
+    "category": "equipment",
+    "type": "minecraft:crafting_shaped"
+  },
+  {
     "input": "#minecraft:shulker_boxes",
     "material": "minecraft:purple_dye",
-    "result": "minecraft:purple_shulker_box",
+    "result": {
+      "id": "minecraft:purple_shulker_box"
+    },
     "group": "shulker_box_dye",
     "category": "misc",
     "type": "minecraft:crafting_transmute"
@@ -13586,6 +15145,7 @@
     "template": "minecraft:raiser_armor_trim_smithing_template",
     "base": "#minecraft:trimmable_armor",
     "addition": "#minecraft:trim_materials",
+    "pattern": "minecraft:raiser",
     "type": "minecraft:smithing_trim"
   },
   {
@@ -13724,7 +15284,9 @@
   {
     "input": "#minecraft:bundles",
     "material": "minecraft:red_dye",
-    "result": "minecraft:red_bundle",
+    "result": {
+      "id": "minecraft:red_bundle"
+    },
     "group": "bundle_dye",
     "category": "equipment",
     "type": "minecraft:crafting_transmute"
@@ -13834,6 +15396,24 @@
     "category": "blocks",
     "ingredient": "minecraft:red_terracotta",
     "type": "minecraft:smelting"
+  },
+  {
+    "key": {
+      "#": "minecraft:red_wool",
+      "G": "minecraft:glass",
+      "L": "minecraft:leather"
+    },
+    "pattern": [
+      "LLL",
+      "G#G"
+    ],
+    "result": {
+      "id": "minecraft:red_harness",
+      "count": 1
+    },
+    "group": "harness",
+    "category": "equipment",
+    "type": "minecraft:crafting_shaped"
   },
   {
     "key": {
@@ -14014,7 +15594,9 @@
   {
     "input": "#minecraft:shulker_boxes",
     "material": "minecraft:red_dye",
-    "result": "minecraft:red_shulker_box",
+    "result": {
+      "id": "minecraft:red_shulker_box"
+    },
     "group": "shulker_box_dye",
     "category": "misc",
     "type": "minecraft:crafting_transmute"
@@ -14216,6 +15798,127 @@
   },
   {
     "key": {
+      "#": "minecraft:resin_clump"
+    },
+    "pattern": [
+      "###",
+      "###",
+      "###"
+    ],
+    "result": {
+      "id": "minecraft:resin_block",
+      "count": 1
+    },
+    "category": "building",
+    "type": "minecraft:crafting_shaped"
+  },
+  {
+    "result": {
+      "id": "minecraft:resin_brick"
+    },
+    "experience": 0.1,
+    "cookingtime": 200,
+    "category": "misc",
+    "ingredient": "minecraft:resin_clump",
+    "type": "minecraft:smelting"
+  },
+  {
+    "key": {
+      "#": "minecraft:resin_bricks"
+    },
+    "pattern": [
+      "###"
+    ],
+    "result": {
+      "id": "minecraft:resin_brick_slab",
+      "count": 6
+    },
+    "category": "building",
+    "type": "minecraft:crafting_shaped"
+  },
+  {
+    "ingredient": "minecraft:resin_bricks",
+    "result": {
+      "id": "minecraft:resin_brick_slab",
+      "count": 2
+    },
+    "type": "minecraft:stonecutting"
+  },
+  {
+    "key": {
+      "#": "minecraft:resin_bricks"
+    },
+    "pattern": [
+      "#  ",
+      "## ",
+      "###"
+    ],
+    "result": {
+      "id": "minecraft:resin_brick_stairs",
+      "count": 4
+    },
+    "category": "building",
+    "type": "minecraft:crafting_shaped"
+  },
+  {
+    "ingredient": "minecraft:resin_bricks",
+    "result": {
+      "id": "minecraft:resin_brick_stairs",
+      "count": 1
+    },
+    "type": "minecraft:stonecutting"
+  },
+  {
+    "key": {
+      "#": "minecraft:resin_bricks"
+    },
+    "pattern": [
+      "###",
+      "###"
+    ],
+    "result": {
+      "id": "minecraft:resin_brick_wall",
+      "count": 6
+    },
+    "category": "misc",
+    "type": "minecraft:crafting_shaped"
+  },
+  {
+    "ingredient": "minecraft:resin_bricks",
+    "result": {
+      "id": "minecraft:resin_brick_wall",
+      "count": 1
+    },
+    "type": "minecraft:stonecutting"
+  },
+  {
+    "key": {
+      "#": "minecraft:resin_brick"
+    },
+    "pattern": [
+      "##",
+      "##"
+    ],
+    "result": {
+      "id": "minecraft:resin_bricks",
+      "count": 1
+    },
+    "category": "building",
+    "type": "minecraft:crafting_shaped"
+  },
+  {
+    "category": "misc",
+    "result": {
+      "id": "minecraft:resin_clump",
+      "count": 9
+    },
+    "ingredients": [
+      "minecraft:resin_block"
+    ],
+    "type": "minecraft:crafting_shapeless"
+  },
+  {
+    "key": {
       "G": "minecraft:glowstone",
       "O": "minecraft:crying_obsidian"
     },
@@ -14253,7 +15956,24 @@
     "template": "minecraft:rib_armor_trim_smithing_template",
     "base": "#minecraft:trimmable_armor",
     "addition": "#minecraft:trim_materials",
+    "pattern": "minecraft:rib",
     "type": "minecraft:smithing_trim"
+  },
+  {
+    "key": {
+      "#": "minecraft:iron_ingot",
+      "X": "minecraft:leather"
+    },
+    "pattern": [
+      " X ",
+      "X#X"
+    ],
+    "result": {
+      "id": "minecraft:saddle",
+      "count": 1
+    },
+    "category": "equipment",
+    "type": "minecraft:crafting_shaped"
   },
   {
     "key": {
@@ -14402,6 +16122,7 @@
     "template": "minecraft:sentry_armor_trim_smithing_template",
     "base": "#minecraft:trimmable_armor",
     "addition": "#minecraft:trim_materials",
+    "pattern": "minecraft:sentry",
     "type": "minecraft:smithing_trim"
   },
   {
@@ -14426,6 +16147,7 @@
     "template": "minecraft:shaper_armor_trim_smithing_template",
     "base": "#minecraft:trimmable_armor",
     "addition": "#minecraft:trim_materials",
+    "pattern": "minecraft:shaper",
     "type": "minecraft:smithing_trim"
   },
   {
@@ -14503,6 +16225,7 @@
     "template": "minecraft:silence_armor_trim_smithing_template",
     "base": "#minecraft:trimmable_armor",
     "addition": "#minecraft:trim_materials",
+    "pattern": "minecraft:silence",
     "type": "minecraft:smithing_trim"
   },
   {
@@ -14810,6 +16533,7 @@
     "template": "minecraft:snout_armor_trim_smithing_template",
     "base": "#minecraft:trimmable_armor",
     "addition": "#minecraft:trim_materials",
+    "pattern": "minecraft:snout",
     "type": "minecraft:smithing_trim"
   },
   {
@@ -14936,6 +16660,7 @@
     "template": "minecraft:spire_armor_trim_smithing_template",
     "base": "#minecraft:trimmable_armor",
     "addition": "#minecraft:trim_materials",
+    "pattern": "minecraft:spire",
     "type": "minecraft:smithing_trim"
   },
   {
@@ -15043,7 +16768,7 @@
   {
     "key": {
       "#": "minecraft:stripped_spruce_log",
-      "X": "minecraft:chain"
+      "X": "minecraft:iron_chain"
     },
     "pattern": [
       "X X",
@@ -15083,6 +16808,23 @@
     },
     "group": "wooden_pressure_plate",
     "category": "redstone",
+    "type": "minecraft:crafting_shaped"
+  },
+  {
+    "key": {
+      "#": "minecraft:stripped_spruce_log"
+    },
+    "pattern": [
+      "###",
+      "   ",
+      "###"
+    ],
+    "result": {
+      "id": "minecraft:spruce_shelf",
+      "count": 6
+    },
+    "group": "shelf",
+    "category": "misc",
     "type": "minecraft:crafting_shaped"
   },
   {
@@ -15660,6 +17402,22 @@
   },
   {
     "key": {
+      "#": "minecraft:stripped_pale_oak_log"
+    },
+    "pattern": [
+      "##",
+      "##"
+    ],
+    "result": {
+      "id": "minecraft:stripped_pale_oak_wood",
+      "count": 3
+    },
+    "group": "bark",
+    "category": "building",
+    "type": "minecraft:crafting_shaped"
+  },
+  {
+    "key": {
       "#": "minecraft:stripped_spruce_log"
     },
     "pattern": [
@@ -15724,7 +17482,7 @@
         "minecraft:suspicious_stew_effects": [
           {
             "id": "minecraft:fire_resistance",
-            "duration": 80
+            "duration": 60
           }
         ]
       }
@@ -15746,7 +17504,8 @@
       "components": {
         "minecraft:suspicious_stew_effects": [
           {
-            "id": "minecraft:blindness"
+            "id": "minecraft:blindness",
+            "duration": 220
           }
         ]
       }
@@ -15791,8 +17550,31 @@
       "components": {
         "minecraft:suspicious_stew_effects": [
           {
+            "id": "minecraft:nausea",
+            "duration": 140
+          }
+        ]
+      }
+    },
+    "ingredients": [
+      "minecraft:bowl",
+      "minecraft:brown_mushroom",
+      "minecraft:red_mushroom",
+      "minecraft:closed_eyeblossom"
+    ],
+    "type": "minecraft:crafting_shapeless"
+  },
+  {
+    "group": "suspicious_stew",
+    "category": "misc",
+    "result": {
+      "id": "minecraft:suspicious_stew",
+      "count": 1,
+      "components": {
+        "minecraft:suspicious_stew_effects": [
+          {
             "id": "minecraft:jump_boost",
-            "duration": 120
+            "duration": 100
           }
         ]
       }
@@ -15838,7 +17620,7 @@
         "minecraft:suspicious_stew_effects": [
           {
             "id": "minecraft:poison",
-            "duration": 240
+            "duration": 220
           }
         ]
       }
@@ -15860,8 +17642,31 @@
       "components": {
         "minecraft:suspicious_stew_effects": [
           {
+            "id": "minecraft:blindness",
+            "duration": 220
+          }
+        ]
+      }
+    },
+    "ingredients": [
+      "minecraft:bowl",
+      "minecraft:brown_mushroom",
+      "minecraft:red_mushroom",
+      "minecraft:open_eyeblossom"
+    ],
+    "type": "minecraft:crafting_shapeless"
+  },
+  {
+    "group": "suspicious_stew",
+    "category": "misc",
+    "result": {
+      "id": "minecraft:suspicious_stew",
+      "count": 1,
+      "components": {
+        "minecraft:suspicious_stew_effects": [
+          {
             "id": "minecraft:weakness",
-            "duration": 180
+            "duration": 140
           }
         ]
       }
@@ -15883,7 +17688,8 @@
       "components": {
         "minecraft:suspicious_stew_effects": [
           {
-            "id": "minecraft:regeneration"
+            "id": "minecraft:regeneration",
+            "duration": 140
           }
         ]
       }
@@ -15906,7 +17712,7 @@
         "minecraft:suspicious_stew_effects": [
           {
             "id": "minecraft:weakness",
-            "duration": 180
+            "duration": 140
           }
         ]
       }
@@ -15952,7 +17758,7 @@
         "minecraft:suspicious_stew_effects": [
           {
             "id": "minecraft:weakness",
-            "duration": 180
+            "duration": 140
           }
         ]
       }
@@ -15998,7 +17804,7 @@
         "minecraft:suspicious_stew_effects": [
           {
             "id": "minecraft:weakness",
-            "duration": 180
+            "duration": 140
           }
         ]
       }
@@ -16020,7 +17826,8 @@
       "components": {
         "minecraft:suspicious_stew_effects": [
           {
-            "id": "minecraft:wither"
+            "id": "minecraft:wither",
+            "duration": 140
           }
         ]
       }
@@ -16082,6 +17889,7 @@
     "template": "minecraft:tide_armor_trim_smithing_template",
     "base": "#minecraft:trimmable_armor",
     "addition": "#minecraft:trim_materials",
+    "pattern": "minecraft:tide",
     "type": "minecraft:smithing_trim"
   },
   {
@@ -16440,6 +18248,7 @@
     "template": "minecraft:vex_armor_trim_smithing_template",
     "base": "#minecraft:trimmable_armor",
     "addition": "#minecraft:trim_materials",
+    "pattern": "minecraft:vex",
     "type": "minecraft:smithing_trim"
   },
   {
@@ -16464,6 +18273,7 @@
     "template": "minecraft:ward_armor_trim_smithing_template",
     "base": "#minecraft:trimmable_armor",
     "addition": "#minecraft:trim_materials",
+    "pattern": "minecraft:ward",
     "type": "minecraft:smithing_trim"
   },
   {
@@ -16548,7 +18358,7 @@
   {
     "key": {
       "#": "minecraft:stripped_warped_stem",
-      "X": "minecraft:chain"
+      "X": "minecraft:iron_chain"
     },
     "pattern": [
       "X X",
@@ -16604,6 +18414,23 @@
     },
     "group": "wooden_pressure_plate",
     "category": "redstone",
+    "type": "minecraft:crafting_shaped"
+  },
+  {
+    "key": {
+      "#": "minecraft:stripped_warped_stem"
+    },
+    "pattern": [
+      "###",
+      "   ",
+      "###"
+    ],
+    "result": {
+      "id": "minecraft:warped_shelf",
+      "count": 6
+    },
+    "group": "shelf",
+    "category": "misc",
     "type": "minecraft:crafting_shaped"
   },
   {
@@ -16718,6 +18545,19 @@
     "type": "minecraft:stonecutting"
   },
   {
+    "group": "waxed_copper_bars",
+    "category": "building",
+    "result": {
+      "id": "minecraft:waxed_copper_bars",
+      "count": 1
+    },
+    "ingredients": [
+      "minecraft:copper_bars",
+      "minecraft:honeycomb"
+    ],
+    "type": "minecraft:crafting_shapeless"
+  },
+  {
     "group": "waxed_copper_block",
     "category": "building",
     "result": {
@@ -16762,6 +18602,32 @@
     "type": "minecraft:crafting_shapeless"
   },
   {
+    "group": "waxed_copper_chain",
+    "category": "building",
+    "result": {
+      "id": "minecraft:waxed_copper_chain",
+      "count": 1
+    },
+    "ingredients": [
+      "minecraft:copper_chain",
+      "minecraft:honeycomb"
+    ],
+    "type": "minecraft:crafting_shapeless"
+  },
+  {
+    "group": "waxed_copper_chest",
+    "category": "building",
+    "result": {
+      "id": "minecraft:waxed_copper_chest",
+      "count": 1
+    },
+    "ingredients": [
+      "minecraft:copper_chest",
+      "minecraft:honeycomb"
+    ],
+    "type": "minecraft:crafting_shapeless"
+  },
+  {
     "group": "waxed_copper_door",
     "category": "building",
     "result": {
@@ -16770,6 +18636,19 @@
     },
     "ingredients": [
       "minecraft:copper_door",
+      "minecraft:honeycomb"
+    ],
+    "type": "minecraft:crafting_shapeless"
+  },
+  {
+    "group": "waxed_copper_golem_statue",
+    "category": "building",
+    "result": {
+      "id": "minecraft:waxed_copper_golem_statue",
+      "count": 1
+    },
+    "ingredients": [
+      "minecraft:copper_golem_statue",
       "minecraft:honeycomb"
     ],
     "type": "minecraft:crafting_shapeless"
@@ -16810,6 +18689,19 @@
       "count": 4
     },
     "type": "minecraft:stonecutting"
+  },
+  {
+    "group": "waxed_copper_lantern",
+    "category": "building",
+    "result": {
+      "id": "minecraft:waxed_copper_lantern",
+      "count": 1
+    },
+    "ingredients": [
+      "minecraft:copper_lantern",
+      "minecraft:honeycomb"
+    ],
+    "type": "minecraft:crafting_shapeless"
   },
   {
     "group": "waxed_copper_trapdoor",
@@ -16997,6 +18889,19 @@
     "type": "minecraft:stonecutting"
   },
   {
+    "group": "waxed_exposed_copper_bars",
+    "category": "building",
+    "result": {
+      "id": "minecraft:waxed_exposed_copper_bars",
+      "count": 1
+    },
+    "ingredients": [
+      "minecraft:exposed_copper_bars",
+      "minecraft:honeycomb"
+    ],
+    "type": "minecraft:crafting_shapeless"
+  },
+  {
     "key": {
       "B": "minecraft:blaze_rod",
       "C": "minecraft:waxed_exposed_copper",
@@ -17028,6 +18933,32 @@
     "type": "minecraft:crafting_shapeless"
   },
   {
+    "group": "waxed_exposed_copper_chain",
+    "category": "building",
+    "result": {
+      "id": "minecraft:waxed_exposed_copper_chain",
+      "count": 1
+    },
+    "ingredients": [
+      "minecraft:exposed_copper_chain",
+      "minecraft:honeycomb"
+    ],
+    "type": "minecraft:crafting_shapeless"
+  },
+  {
+    "group": "waxed_exposed_copper_chest",
+    "category": "building",
+    "result": {
+      "id": "minecraft:waxed_exposed_copper_chest",
+      "count": 1
+    },
+    "ingredients": [
+      "minecraft:exposed_copper_chest",
+      "minecraft:honeycomb"
+    ],
+    "type": "minecraft:crafting_shapeless"
+  },
+  {
     "group": "waxed_exposed_copper_door",
     "category": "building",
     "result": {
@@ -17049,6 +18980,19 @@
     },
     "ingredients": [
       "minecraft:exposed_copper",
+      "minecraft:honeycomb"
+    ],
+    "type": "minecraft:crafting_shapeless"
+  },
+  {
+    "group": "waxed_exposed_copper_golem_statue",
+    "category": "building",
+    "result": {
+      "id": "minecraft:waxed_exposed_copper_golem_statue",
+      "count": 1
+    },
+    "ingredients": [
+      "minecraft:exposed_copper_golem_statue",
       "minecraft:honeycomb"
     ],
     "type": "minecraft:crafting_shapeless"
@@ -17089,6 +19033,19 @@
       "count": 4
     },
     "type": "minecraft:stonecutting"
+  },
+  {
+    "group": "waxed_exposed_copper_lantern",
+    "category": "building",
+    "result": {
+      "id": "minecraft:waxed_exposed_copper_lantern",
+      "count": 1
+    },
+    "ingredients": [
+      "minecraft:exposed_copper_lantern",
+      "minecraft:honeycomb"
+    ],
+    "type": "minecraft:crafting_shapeless"
   },
   {
     "group": "waxed_exposed_copper_trapdoor",
@@ -17231,6 +19188,32 @@
     "type": "minecraft:stonecutting"
   },
   {
+    "group": "waxed_exposed_lightning_rod",
+    "category": "building",
+    "result": {
+      "id": "minecraft:waxed_exposed_lightning_rod",
+      "count": 1
+    },
+    "ingredients": [
+      "minecraft:exposed_lightning_rod",
+      "minecraft:honeycomb"
+    ],
+    "type": "minecraft:crafting_shapeless"
+  },
+  {
+    "group": "waxed_lightning_rod",
+    "category": "building",
+    "result": {
+      "id": "minecraft:waxed_lightning_rod",
+      "count": 1
+    },
+    "ingredients": [
+      "minecraft:lightning_rod",
+      "minecraft:honeycomb"
+    ],
+    "type": "minecraft:crafting_shapeless"
+  },
+  {
     "key": {
       "#": "minecraft:waxed_oxidized_cut_copper_slab"
     },
@@ -17276,6 +19259,19 @@
     "type": "minecraft:stonecutting"
   },
   {
+    "group": "waxed_oxidized_copper_bars",
+    "category": "building",
+    "result": {
+      "id": "minecraft:waxed_oxidized_copper_bars",
+      "count": 1
+    },
+    "ingredients": [
+      "minecraft:oxidized_copper_bars",
+      "minecraft:honeycomb"
+    ],
+    "type": "minecraft:crafting_shapeless"
+  },
+  {
     "key": {
       "B": "minecraft:blaze_rod",
       "C": "minecraft:waxed_oxidized_copper",
@@ -17307,6 +19303,32 @@
     "type": "minecraft:crafting_shapeless"
   },
   {
+    "group": "waxed_oxidized_copper_chain",
+    "category": "building",
+    "result": {
+      "id": "minecraft:waxed_oxidized_copper_chain",
+      "count": 1
+    },
+    "ingredients": [
+      "minecraft:oxidized_copper_chain",
+      "minecraft:honeycomb"
+    ],
+    "type": "minecraft:crafting_shapeless"
+  },
+  {
+    "group": "waxed_oxidized_copper_chest",
+    "category": "building",
+    "result": {
+      "id": "minecraft:waxed_oxidized_copper_chest",
+      "count": 1
+    },
+    "ingredients": [
+      "minecraft:oxidized_copper_chest",
+      "minecraft:honeycomb"
+    ],
+    "type": "minecraft:crafting_shapeless"
+  },
+  {
     "group": "waxed_oxidized_copper_door",
     "category": "building",
     "result": {
@@ -17328,6 +19350,19 @@
     },
     "ingredients": [
       "minecraft:oxidized_copper",
+      "minecraft:honeycomb"
+    ],
+    "type": "minecraft:crafting_shapeless"
+  },
+  {
+    "group": "waxed_oxidized_copper_golem_statue",
+    "category": "building",
+    "result": {
+      "id": "minecraft:waxed_oxidized_copper_golem_statue",
+      "count": 1
+    },
+    "ingredients": [
+      "minecraft:oxidized_copper_golem_statue",
       "minecraft:honeycomb"
     ],
     "type": "minecraft:crafting_shapeless"
@@ -17368,6 +19403,19 @@
       "count": 4
     },
     "type": "minecraft:stonecutting"
+  },
+  {
+    "group": "waxed_oxidized_copper_lantern",
+    "category": "building",
+    "result": {
+      "id": "minecraft:waxed_oxidized_copper_lantern",
+      "count": 1
+    },
+    "ingredients": [
+      "minecraft:oxidized_copper_lantern",
+      "minecraft:honeycomb"
+    ],
+    "type": "minecraft:crafting_shapeless"
   },
   {
     "group": "waxed_oxidized_copper_trapdoor",
@@ -17510,6 +19558,19 @@
     "type": "minecraft:stonecutting"
   },
   {
+    "group": "waxed_oxidized_lightning_rod",
+    "category": "building",
+    "result": {
+      "id": "minecraft:waxed_oxidized_lightning_rod",
+      "count": 1
+    },
+    "ingredients": [
+      "minecraft:oxidized_lightning_rod",
+      "minecraft:honeycomb"
+    ],
+    "type": "minecraft:crafting_shapeless"
+  },
+  {
     "key": {
       "#": "minecraft:waxed_weathered_cut_copper_slab"
     },
@@ -17555,6 +19616,19 @@
     "type": "minecraft:stonecutting"
   },
   {
+    "group": "waxed_weathered_copper_bars",
+    "category": "building",
+    "result": {
+      "id": "minecraft:waxed_weathered_copper_bars",
+      "count": 1
+    },
+    "ingredients": [
+      "minecraft:weathered_copper_bars",
+      "minecraft:honeycomb"
+    ],
+    "type": "minecraft:crafting_shapeless"
+  },
+  {
     "key": {
       "B": "minecraft:blaze_rod",
       "C": "minecraft:waxed_weathered_copper",
@@ -17586,6 +19660,32 @@
     "type": "minecraft:crafting_shapeless"
   },
   {
+    "group": "waxed_weathered_copper_chain",
+    "category": "building",
+    "result": {
+      "id": "minecraft:waxed_weathered_copper_chain",
+      "count": 1
+    },
+    "ingredients": [
+      "minecraft:weathered_copper_chain",
+      "minecraft:honeycomb"
+    ],
+    "type": "minecraft:crafting_shapeless"
+  },
+  {
+    "group": "waxed_weathered_copper_chest",
+    "category": "building",
+    "result": {
+      "id": "minecraft:waxed_weathered_copper_chest",
+      "count": 1
+    },
+    "ingredients": [
+      "minecraft:weathered_copper_chest",
+      "minecraft:honeycomb"
+    ],
+    "type": "minecraft:crafting_shapeless"
+  },
+  {
     "group": "waxed_weathered_copper_door",
     "category": "building",
     "result": {
@@ -17607,6 +19707,19 @@
     },
     "ingredients": [
       "minecraft:weathered_copper",
+      "minecraft:honeycomb"
+    ],
+    "type": "minecraft:crafting_shapeless"
+  },
+  {
+    "group": "waxed_weathered_copper_golem_statue",
+    "category": "building",
+    "result": {
+      "id": "minecraft:waxed_weathered_copper_golem_statue",
+      "count": 1
+    },
+    "ingredients": [
+      "minecraft:weathered_copper_golem_statue",
       "minecraft:honeycomb"
     ],
     "type": "minecraft:crafting_shapeless"
@@ -17647,6 +19760,19 @@
       "count": 4
     },
     "type": "minecraft:stonecutting"
+  },
+  {
+    "group": "waxed_weathered_copper_lantern",
+    "category": "building",
+    "result": {
+      "id": "minecraft:waxed_weathered_copper_lantern",
+      "count": 1
+    },
+    "ingredients": [
+      "minecraft:weathered_copper_lantern",
+      "minecraft:honeycomb"
+    ],
+    "type": "minecraft:crafting_shapeless"
   },
   {
     "group": "waxed_weathered_copper_trapdoor",
@@ -17789,6 +19915,19 @@
     "type": "minecraft:stonecutting"
   },
   {
+    "group": "waxed_weathered_lightning_rod",
+    "category": "building",
+    "result": {
+      "id": "minecraft:waxed_weathered_lightning_rod",
+      "count": 1
+    },
+    "ingredients": [
+      "minecraft:weathered_lightning_rod",
+      "minecraft:honeycomb"
+    ],
+    "type": "minecraft:crafting_shapeless"
+  },
+  {
     "key": {
       "#": "minecraft:diamond",
       "C": "minecraft:terracotta",
@@ -17810,6 +19949,7 @@
     "template": "minecraft:wayfinder_armor_trim_smithing_template",
     "base": "#minecraft:trimmable_armor",
     "addition": "#minecraft:trim_materials",
+    "pattern": "minecraft:wayfinder",
     "type": "minecraft:smithing_trim"
   },
   {
@@ -18019,7 +20159,9 @@
   {
     "input": "#minecraft:bundles",
     "material": "minecraft:white_dye",
-    "result": "minecraft:white_bundle",
+    "result": {
+      "id": "minecraft:white_bundle"
+    },
     "group": "bundle_dye",
     "category": "equipment",
     "type": "minecraft:crafting_transmute"
@@ -18107,9 +20249,29 @@
     "type": "minecraft:smelting"
   },
   {
+    "key": {
+      "#": "minecraft:white_wool",
+      "G": "minecraft:glass",
+      "L": "minecraft:leather"
+    },
+    "pattern": [
+      "LLL",
+      "G#G"
+    ],
+    "result": {
+      "id": "minecraft:white_harness",
+      "count": 1
+    },
+    "group": "harness",
+    "category": "equipment",
+    "type": "minecraft:crafting_shaped"
+  },
+  {
     "input": "#minecraft:shulker_boxes",
     "material": "minecraft:white_dye",
-    "result": "minecraft:white_shulker_box",
+    "result": {
+      "id": "minecraft:white_shulker_box"
+    },
     "group": "shulker_box_dye",
     "category": "misc",
     "type": "minecraft:crafting_transmute"
@@ -18221,6 +20383,7 @@
     "template": "minecraft:wild_armor_trim_smithing_template",
     "base": "#minecraft:trimmable_armor",
     "addition": "#minecraft:trim_materials",
+    "pattern": "minecraft:wild",
     "type": "minecraft:smithing_trim"
   },
   {
@@ -18386,7 +20549,9 @@
   {
     "input": "#minecraft:bundles",
     "material": "minecraft:yellow_dye",
-    "result": "minecraft:yellow_bundle",
+    "result": {
+      "id": "minecraft:yellow_bundle"
+    },
     "group": "bundle_dye",
     "category": "equipment",
     "type": "minecraft:crafting_transmute"
@@ -18464,6 +20629,18 @@
     "type": "minecraft:crafting_shapeless"
   },
   {
+    "group": "yellow_dye",
+    "category": "misc",
+    "result": {
+      "id": "minecraft:yellow_dye",
+      "count": 1
+    },
+    "ingredients": [
+      "minecraft:wildflowers"
+    ],
+    "type": "minecraft:crafting_shapeless"
+  },
+  {
     "result": {
       "id": "minecraft:yellow_glazed_terracotta"
     },
@@ -18474,9 +20651,29 @@
     "type": "minecraft:smelting"
   },
   {
+    "key": {
+      "#": "minecraft:yellow_wool",
+      "G": "minecraft:glass",
+      "L": "minecraft:leather"
+    },
+    "pattern": [
+      "LLL",
+      "G#G"
+    ],
+    "result": {
+      "id": "minecraft:yellow_harness",
+      "count": 1
+    },
+    "group": "harness",
+    "category": "equipment",
+    "type": "minecraft:crafting_shaped"
+  },
+  {
     "input": "#minecraft:shulker_boxes",
     "material": "minecraft:yellow_dye",
-    "result": "minecraft:yellow_shulker_box",
+    "result": {
+      "id": "minecraft:yellow_shulker_box"
+    },
     "group": "shulker_box_dye",
     "category": "misc",
     "type": "minecraft:crafting_transmute"

@@ -2,17 +2,17 @@
 name = "pumpkin-inventory"
 version.workspace = true
 edition.workspace = true
+rust-version = "1.87"
 
 [dependencies]
-# For items
+pumpkin-protocol = { path = "../pumpkin-protocol" }
+pumpkin-data = { path = "../pumpkin-data" }
+
 pumpkin-world = { path = "../pumpkin-world" }
-pumpkin-macros = { path = "../pumpkin-macros" }
+pumpkin-util = { path = "../pumpkin-util" }
 
 log.workspace = true
-itertools.workspace = true
-crossbeam.workspace = true
 tokio.workspace = true
 thiserror.workspace = true
+crossbeam-utils = "0.8.21"
 
-num-traits.workspace = true
-num-derive.workspace = true

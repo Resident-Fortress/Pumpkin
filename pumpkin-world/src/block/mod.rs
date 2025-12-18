@@ -1,32 +1,82 @@
-use num_derive::FromPrimitive;
+pub mod entities;
+pub mod state;
+pub mod viewer;
 
-pub mod block_registry;
-pub mod block_state;
+use std::collections::HashMap;
 
-use pumpkin_core::math::vector3::Vector3;
+use pumpkin_data::{Block, BlockState};
+use serde::{Deserialize, Deserializer, Serialize, Serializer};
+pub use state::RawBlockState;
 
-pub use block_state::BlockState;
+use crate::BlockStateId;
 
-#[derive(FromPrimitive)]
-pub enum BlockFace {
-    Bottom = 0,
-    Top,
-    North,
-    South,
-    West,
-    East,
+#[derive(Serialize, Deserialize, Clone)]
+#[serde(rename_all = "PascalCase")]
+pub struct BlockStateCodec {
+    /// Block name
+    #[serde(
+        deserialize_with = "parse_block_name",
+        serialize_with = "block_to_string"
+    )]
+    pub name: &'static Block,
+    /// Key-value pairs of properties
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub properties: Option<HashMap<String, String>>,
 }
 
-impl BlockFace {
-    pub fn to_offset(&self) -> Vector3<i32> {
-        match self {
-            BlockFace::Bottom => (0, -1, 0),
-            BlockFace::Top => (0, 1, 0),
-            BlockFace::North => (0, 0, -1),
-            BlockFace::South => (0, 0, 1),
-            BlockFace::West => (-1, 0, 0),
-            BlockFace::East => (1, 0, 0),
+fn parse_block_name<'de, D: Deserializer<'de>>(
+    deserializer: D,
+) -> Result<&'static Block, D::Error> {
+    let s = String::deserialize(deserializer)?;
+    let block =
+        Block::from_name(s.as_str()).ok_or(serde::de::Error::custom("Invalid block name"))?;
+    Ok(block)
+}
+
+fn block_to_string<S: Serializer>(block: &'static Block, serializer: S) -> Result<S::Ok, S::Error> {
+    serializer.serialize_str(block.name)
+}
+
+impl BlockStateCodec {
+    pub fn get_state(&self) -> &'static BlockState {
+        let state_id = self.get_state_id();
+        BlockState::from_id(state_id)
+    }
+
+    pub fn get_block(&self) -> &'static Block {
+        self.name
+    }
+
+    /// Prefer this over `get_state` when the only the state ID is needed
+    pub fn get_state_id(&self) -> BlockStateId {
+        let block = self.name;
+
+        let properties_map = match &self.properties {
+            Some(map) => map,
+            None => return block.default_state.id,
+        };
+
+        let props_iter = properties_map
+            .iter()
+            .map(|(k, v)| (k.as_str(), v.as_str()))
+            .collect::<Vec<(&str, &str)>>();
+
+        let block_properties = block.from_properties(&props_iter);
+        block_properties.to_state_id(block)
+    }
+}
+
+#[cfg(test)]
+mod test {
+    use pumpkin_data::Block;
+
+    use crate::chunk::palette::BLOCK_NETWORK_MAX_BITS;
+
+    #[test]
+    fn test_proper_network_bits_per_entry() {
+        let id_to_test = 1 << BLOCK_NETWORK_MAX_BITS;
+        if Block::from_state_id(id_to_test) != &Block::AIR {
+            panic!("We need to update our constants!");
         }
-        .into()
     }
 }

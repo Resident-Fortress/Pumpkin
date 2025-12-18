@@ -1,67 +1,99 @@
 [package]
 name = "pumpkin"
-version = "0.1.0-dev"
+version.workspace = true
 description = "Empowering everyone to host fast and efficient Minecraft servers."
-edition = "2021"
+edition.workspace = true
+rust-version = "1.89"
+
+[package.metadata.tauri-winres]
+# FileDescription is handled as the Program name by Windows!
+FileDescription = "Pumpkin"
+OriginalFilename = "pumpkin.exe"
+LegalCopyright = "Copyright © 2025 Aleksander Medvedev"
+
+# Required to expose pumpkin plugin API
+[lib]
+doctest = false
 
 [dependencies]
 # pumpkin
-pumpkin-core = { path = "../pumpkin-core" }
+pumpkin-util = { path = "../pumpkin-util" }
+pumpkin-nbt = { path = "../pumpkin-nbt" }
 pumpkin-config = { path = "../pumpkin-config" }
 pumpkin-inventory = { path = "../pumpkin-inventory" }
 pumpkin-world = { path = "../pumpkin-world" }
-pumpkin-entity = { path = "../pumpkin-entity" }
+pumpkin-data = { path = "../pumpkin-data" }
 pumpkin-protocol = { path = "../pumpkin-protocol" }
 pumpkin-registry = { path = "../pumpkin-registry" }
 pumpkin-macros = { path = "../pumpkin-macros" }
 
-itertools.workspace = true
 log.workspace = true
 crossbeam.workspace = true
 uuid.workspace = true
-tokio.workspace = true
-rayon.workspace = true
+tokio = { workspace = true, features = [
+    "macros",
+    "net",
+    "rt-multi-thread",
+    "sync",
+    "io-std",
+    "signal",
+    "fs",
+    "io-util",
+    "time",
+] }
 thiserror.workspace = true
-
-num-traits.workspace = true
-num-derive.workspace = true
-parking_lot.workspace = true
+futures.workspace = true
 
 # config
 serde.workspace = true
 serde_json.workspace = true
 
-bytes = "1.8"
+bytes.workspace = true
 
-rand = "0.8.5"
+rand = "=0.10.0-rc.5"
 
 num-bigint = "0.4"
 
+# Console line reading
+rustyline-async = "0.4.7"
+
 # encryption
-rsa = "0.9.6"
-rsa-der = "0.3.0"
+rsa = { version = "=0.10.0-rc.10", features = ["sha1"] }
+pkcs8 = "=0.11.0-rc.8"
 
 # authentication
-reqwest = { version = "0.12.9", default-features = false, features = [
-    "http2",
+ureq = { version = "3.1.4", features = [
     "json",
-    "macos-system-configuration",
-    "rustls-tls",
 ] }
 
-sha1 = "0.10.6"
-digest = "=0.11.0-pre.9"
+
+sha1 = "=0.11.0-rc.3"
 
 # velocity en
-hmac = "0.12.1"
-sha2 = "0.10.8"
+hmac = "=0.13.0-rc.3"
+sha2 = "=0.11.0-rc.3"
 
-# icon loading
 base64 = "0.22.1"
-png = "0.17.14"
 
 # logging
-simple_logger = { version = "5.0.0", features = ["threads"] }
+simplelog = { version = "0.12.2", features = ["ansi_term"] }
 
-# commands
-async-trait = "0.1.83"
+# Remove time in favor of chrono?
+time = { version = "0.3", features = ["parsing", "macros"] }
+
+# plugins
+libloading = "0.9"
+rustc-hash = "2.1.1"
+
+# Task handling
+tokio-util = { version = "0.7.17", features = ["rt"] }
+
+flate2 = "1.1.5"
+console-subscriber = { version = "0.5.0", default-features= false, optional = true }
+signature = "2.2.0"
+[dev-dependencies]
+tempfile.workspace = true
+
+[features]
+console-subscriber = ["dep:console-subscriber"]
+tokio_taskdump = ["pumpkin-world/tokio_taskdump"]

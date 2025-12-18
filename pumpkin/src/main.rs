@@ -2,8 +2,30 @@
 #![deny(clippy::pedantic)]
 // #![warn(clippy::restriction)]
 #![deny(clippy::cargo)]
+// to keep consistency
+#![deny(clippy::if_then_some_else_none)]
+#![deny(clippy::empty_enum_variants_with_brackets)]
+#![deny(clippy::empty_structs_with_brackets)]
+#![deny(clippy::separated_literal_suffix)]
+#![deny(clippy::semicolon_outside_block)]
+#![deny(clippy::non_zero_suggestions)]
+#![deny(clippy::string_lit_chars_any)]
+#![deny(clippy::use_self)]
+#![deny(clippy::useless_let_if_seq)]
+#![deny(clippy::branches_sharing_code)]
+#![deny(clippy::equatable_if_let)]
+#![deny(clippy::option_if_let_else)]
+#![deny(clippy::needless_pass_by_ref_mut)]
+#![deny(clippy::needless_collect)]
+#![deny(clippy::redundant_clone)]
+#![deny(clippy::set_contains_or_insert)]
+#![deny(clippy::significant_drop_in_scrutinee)]
+// use log crate
+#![deny(clippy::print_stdout)]
+#![deny(clippy::print_stderr)]
 // REMOVE SOME WHEN RELEASE
 #![expect(clippy::cargo_common_metadata)]
+#![expect(clippy::cast_precision_loss)]
 #![expect(clippy::multiple_crate_versions)]
 #![expect(clippy::single_call_fn)]
 #![expect(clippy::cast_sign_loss)]
@@ -13,90 +35,102 @@
 #![expect(clippy::missing_errors_doc)]
 #![expect(clippy::module_name_repetitions)]
 #![expect(clippy::struct_excessive_bools)]
+// Don't warn on event sending macros
+#![expect(unused_labels)]
 
 #[cfg(target_os = "wasi")]
 compile_error!("Compiling for WASI targets is not supported!");
 
-use log::LevelFilter;
-
-use client::Client;
-use server::{ticker::Ticker, Server};
-use std::io::{self};
-use tokio::io::{AsyncBufReadExt, BufReader};
+use plugin::PluginManager;
+use pumpkin_data::packet::CURRENT_MC_PROTOCOL;
+use std::{
+    io::{self},
+    sync::{Arc, LazyLock},
+};
 #[cfg(not(unix))]
 use tokio::signal::ctrl_c;
 #[cfg(unix)]
-use tokio::signal::unix::{signal, SignalKind};
+use tokio::signal::unix::{SignalKind, signal};
+use tokio::sync::RwLock;
 
-use std::sync::Arc;
+use pumpkin::{PumpkinServer, SHOULD_STOP, STOP_INTERRUPT, init_log, stop_server};
 
-use pumpkin_config::{ADVANCED_CONFIG, BASIC_CONFIG};
-use pumpkin_core::text::{color::NamedColor, TextComponent};
-use rcon::RCONServer;
+use pumpkin_config::{AdvancedConfiguration, BasicConfiguration, LoadConfiguration};
+use pumpkin_util::{
+    permission::{PermissionManager, PermissionRegistry},
+    text::{TextComponent, color::NamedColor},
+};
 use std::time::Instant;
-
 // Setup some tokens to allow us to identify which event is for which socket.
 
-pub mod client;
+pub mod block;
 pub mod command;
+pub mod data;
 pub mod entity;
 pub mod error;
-pub mod proxy;
-pub mod query;
-pub mod rcon;
+pub mod item;
+pub mod net;
+pub mod plugin;
 pub mod server;
 pub mod world;
 
-fn scrub_address(ip: &str) -> String {
-    use pumpkin_config::BASIC_CONFIG;
-    if BASIC_CONFIG.scrub_ips {
-        ip.chars()
-            .map(|ch| if ch == '.' || ch == ':' { ch } else { 'x' })
-            .collect()
-    } else {
-        ip.to_string()
-    }
-}
+pub static PLUGIN_MANAGER: LazyLock<Arc<PluginManager>> =
+    LazyLock::new(|| Arc::new(PluginManager::new()));
 
-fn init_logger() {
-    use pumpkin_config::ADVANCED_CONFIG;
-    if ADVANCED_CONFIG.logging.enabled {
-        let mut logger = simple_logger::SimpleLogger::new();
+pub static PERMISSION_REGISTRY: LazyLock<Arc<RwLock<PermissionRegistry>>> =
+    LazyLock::new(|| Arc::new(RwLock::new(PermissionRegistry::new())));
 
-        if !ADVANCED_CONFIG.logging.timestamp {
-            logger = logger.without_timestamps();
-        }
+pub static PERMISSION_MANAGER: LazyLock<Arc<RwLock<PermissionManager>>> = LazyLock::new(|| {
+    Arc::new(RwLock::new(PermissionManager::new(
+        PERMISSION_REGISTRY.clone(),
+    )))
+});
 
-        if ADVANCED_CONFIG.logging.env {
-            logger = logger.env();
-        }
+const CARGO_PKG_VERSION: &str = env!("CARGO_PKG_VERSION");
 
-        logger = logger.with_level(convert_logger_filter(ADVANCED_CONFIG.logging.level));
-
-        logger = logger.with_colors(ADVANCED_CONFIG.logging.color);
-        logger = logger.with_threads(ADVANCED_CONFIG.logging.threads);
-        logger.init().unwrap();
-    }
-}
-
-const fn convert_logger_filter(level: pumpkin_config::logging::LevelFilter) -> LevelFilter {
-    match level {
-        pumpkin_config::logging::LevelFilter::Off => LevelFilter::Off,
-        pumpkin_config::logging::LevelFilter::Error => LevelFilter::Error,
-        pumpkin_config::logging::LevelFilter::Warn => LevelFilter::Warn,
-        pumpkin_config::logging::LevelFilter::Info => LevelFilter::Info,
-        pumpkin_config::logging::LevelFilter::Debug => LevelFilter::Debug,
-        pumpkin_config::logging::LevelFilter::Trace => LevelFilter::Trace,
-    }
-}
-
+// WARNING: All rayon calls from the tokio runtime must be non-blocking! This includes things
+// like `par_iter`. These should be spawned in the the rayon pool and then passed to the tokio
+// runtime with a channel! See `Level::fetch_chunks` as an example!
 #[tokio::main]
-async fn main() -> io::Result<()> {
-    init_logger();
-    // let rt = tokio::runtime::Builder::new_multi_thread()
-    //     .enable_all()
-    //     .build()
-    //     .unwrap();
+async fn main() {
+    #[cfg(feature = "console-subscriber")]
+    console_subscriber::init();
+    let time = Instant::now();
+
+    let exec_dir = std::env::current_dir().unwrap();
+    let config_dir = exec_dir.join("config");
+
+    let basic_config = BasicConfiguration::load(&config_dir);
+    let advanced_config = AdvancedConfiguration::load(&config_dir);
+
+    pumpkin::init_logger(&advanced_config);
+
+    init_log!();
+
+    let default_panic = std::panic::take_hook();
+    std::panic::set_hook(Box::new(move |info| {
+        default_panic(info);
+        // TODO: Gracefully exit?
+        // We need to abide by the panic rules here.
+        std::process::exit(1);
+    }));
+    log::info!("Starting Pumpkin {CARGO_PKG_VERSION} Minecraft (Protocol {CURRENT_MC_PROTOCOL})",);
+
+    log::debug!(
+        "Build info: FAMILY: \"{}\", OS: \"{}\", ARCH: \"{}\", BUILD: \"{}\"",
+        std::env::consts::FAMILY,
+        std::env::consts::OS,
+        std::env::consts::ARCH,
+        if cfg!(debug_assertions) {
+            "Debug"
+        } else {
+            "Release"
+        }
+    );
+
+    log::warn!("Pumpkin is currently under heavy development!");
+    log::info!("Report issues on https://github.com/Pumpkin-MC/Pumpkin/issues");
+    log::info!("Join our Discord for community support: https://discord.com/invite/wT8XjrjKkf");
 
     tokio::spawn(async {
         setup_sighandler()
@@ -104,112 +138,32 @@ async fn main() -> io::Result<()> {
             .expect("Unable to setup signal handlers");
     });
 
-    // ensure rayon is built outside of tokio scope
-    rayon::ThreadPoolBuilder::new().build_global().unwrap();
-    let default_panic = std::panic::take_hook();
-    std::panic::set_hook(Box::new(move |info| {
-        default_panic(info);
-        // TODO: Gracefully exit?
-        std::process::exit(1);
-    }));
+    let pumpkin_server = PumpkinServer::new(basic_config, advanced_config).await;
+    pumpkin_server.init_plugins().await;
 
-    let time = Instant::now();
-
-    // Setup the TCP server socket.
-    let listener = tokio::net::TcpListener::bind(BASIC_CONFIG.server_address)
-        .await
-        .expect("Failed to start TcpListener");
-    // In the event the user puts 0 for their port, this will allow us to know what port it is running on
-    let addr = listener
-        .local_addr()
-        .expect("Unable to get the address of server!");
-
-    let use_console = ADVANCED_CONFIG.commands.use_console;
-    let rcon = ADVANCED_CONFIG.rcon.clone();
-
-    let server = Arc::new(Server::new());
-    let mut ticker = Ticker::new(BASIC_CONFIG.tps);
-
-    log::info!("Started Server took {}ms", time.elapsed().as_millis());
-    log::info!("You now can connect to the server, Listening on {}", addr);
-
-    if use_console {
-        setup_console(server.clone());
-    }
-    if rcon.enabled {
-        let server = server.clone();
-        tokio::spawn(async move {
-            RCONServer::new(&rcon, server).await.unwrap();
-        });
-    }
-
-    if ADVANCED_CONFIG.query.enabled {
-        log::info!("Query protocol enabled. Starting...");
-        tokio::spawn(query::start_query_handler(server.clone(), addr));
-    }
-
-    {
-        let server = server.clone();
-        tokio::spawn(async move {
-            ticker.run(&server).await;
-        });
-    }
-
-    let mut master_client_id: u16 = 0;
-    loop {
-        // Asynchronously wait for an inbound socket.
-        let (connection, address) = listener.accept().await?;
-
-        if let Err(e) = connection.set_nodelay(true) {
-            log::warn!("failed to set TCP_NODELAY {e}");
+    log::info!("Started server; took {}ms", time.elapsed().as_millis());
+    let basic_config = &pumpkin_server.server.basic_config;
+    log::info!(
+        "Server is now running. Connect using port: {}{}{}",
+        if basic_config.java_edition {
+            format!("Java Edition: {}", basic_config.java_edition_address)
+        } else {
+            String::new()
+        },
+        if basic_config.java_edition && basic_config.bedrock_edition {
+            " | " // Separator if both are enabled
+        } else {
+            ""
+        },
+        if basic_config.bedrock_edition {
+            format!("Bedrock Edition: {}", basic_config.bedrock_edition_address)
+        } else {
+            String::new()
         }
+    );
 
-        let id = master_client_id;
-        master_client_id = master_client_id.wrapping_add(1);
-
-        log::info!(
-            "Accepted connection from: {} (id {})",
-            scrub_address(&format!("{address}")),
-            id
-        );
-
-        let client = Arc::new(Client::new(connection, addr, id));
-
-        let server = server.clone();
-        tokio::spawn(async move {
-            while !client.closed.load(std::sync::atomic::Ordering::Relaxed)
-                && !client
-                    .make_player
-                    .load(std::sync::atomic::Ordering::Relaxed)
-            {
-                let open = client.poll().await;
-                if open {
-                    client.process_packets(&server).await;
-                };
-            }
-            if client
-                .make_player
-                .load(std::sync::atomic::Ordering::Relaxed)
-            {
-                let (player, world) = server.add_player(client).await;
-                world.spawn_player(&BASIC_CONFIG, player.clone()).await;
-                // poll Player
-                while !player
-                    .client
-                    .closed
-                    .load(core::sync::atomic::Ordering::Relaxed)
-                {
-                    let open = player.client.poll().await;
-                    if open {
-                        player.process_packets(&server).await;
-                    };
-                }
-                log::debug!("Cleaning up player for id {}", id);
-                player.remove().await;
-                server.remove_player().await;
-            }
-        });
-    }
+    pumpkin_server.start().await;
+    log::info!("The server has stopped.");
 }
 
 fn handle_interrupt() {
@@ -219,7 +173,7 @@ fn handle_interrupt() {
             .color_named(NamedColor::Red)
             .to_pretty_console()
     );
-    std::process::exit(0);
+    stop_server();
 }
 
 // Non-UNIX Ctrl-C handling
@@ -248,26 +202,4 @@ async fn setup_sighandler() -> io::Result<()> {
     }
 
     Ok(())
-}
-
-fn setup_console(server: Arc<Server>) {
-    tokio::spawn(async move {
-        let stdin = tokio::io::stdin();
-        let mut reader = BufReader::new(stdin);
-        loop {
-            let mut out = String::new();
-
-            reader
-                .read_line(&mut out)
-                .await
-                .expect("Failed to read console line");
-
-            if !out.is_empty() {
-                let dispatcher = server.command_dispatcher.clone();
-                dispatcher
-                    .handle_command(&mut command::CommandSender::Console, &server, &out)
-                    .await;
-            }
-        }
-    });
 }

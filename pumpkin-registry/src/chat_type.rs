@@ -1,16 +1,16 @@
-use pumpkin_core::text::style::Style;
+use pumpkin_util::text::style::Style;
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ChatType {
-    chat: Decoration,
-    narration: Decoration,
+    pub chat: Decoration,
+    pub narration: Decoration,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Decoration {
-    translation_key: String,
+    pub translation_key: String,
     #[serde(default, skip_serializing_if = "Option::is_none")]
-    style: Option<Style<'static>>,
-    parameters: Vec<String>,
+    pub style: Option<Style>,
+    pub parameters: Vec<String>,
 }

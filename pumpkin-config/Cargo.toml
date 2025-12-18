@@ -4,9 +4,13 @@ version.workspace = true
 edition.workspace = true
 
 [dependencies]
-pumpkin-core = { path = "../pumpkin-core" }
+pumpkin-util = { path = "../pumpkin-util" }
 serde.workspace = true
 log.workspace = true
+uuid.workspace = true
 
-toml = "0.8"
-serde-inline-default = "0.2.2"
+toml = "0.9"
+
+[features]
+# Adds helper to change the config at runtime
+test_helper = []

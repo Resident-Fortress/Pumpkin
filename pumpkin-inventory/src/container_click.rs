@@ -1,43 +1,52 @@
 use crate::InventoryError;
-use pumpkin_world::item::ItemStack;
+use pumpkin_protocol::java::server::play::SlotActionType;
 
+#[derive(Debug)]
 pub struct Click {
     pub slot: Slot,
     pub click_type: ClickType,
 }
 
+const BUTTON_CLICK_LEFT: i8 = 0;
+const BUTTON_CLICK_RIGHT: i8 = 1;
+
+const KEY_CLICK_OFFHAND: i8 = 40;
+const KEY_CLICK_HOTBAR_START: i8 = 0;
+const KEY_CLICK_HOTBAR_END: i8 = 9;
+
+const SLOT_INDEX_OUTSIDE: i16 = -999;
+
 impl Click {
-    pub fn new(mode: u8, button: i8, slot: i16) -> Result<Self, InventoryError> {
+    pub fn new(mode: SlotActionType, button: i8, slot: i16) -> Result<Self, InventoryError> {
         match mode {
-            0 => Self::new_normal_click(button, slot),
+            SlotActionType::Pickup => Self::new_normal_click(button, slot),
             // Both buttons do the same here, so we omit it
-            1 => Self::new_shift_click(slot),
-            2 => Self::new_key_click(button, slot),
-            3 => Ok(Self {
+            SlotActionType::QuickMove => Self::new_shift_click(slot),
+            SlotActionType::Swap => Self::new_key_click(button, slot),
+            SlotActionType::Clone => Ok(Self {
                 click_type: ClickType::CreativePickItem,
                 slot: Slot::Normal(slot.try_into().or(Err(InventoryError::InvalidSlot))?),
             }),
-            4 => Self::new_drop_item(button),
-            5 => Self::new_drag_item(button, slot),
-            6 => Ok(Self {
+            SlotActionType::Throw => Self::new_drop_item(button, slot),
+            SlotActionType::QuickCraft => Self::new_drag_item(button, slot),
+            SlotActionType::PickupAll => Ok(Self {
                 click_type: ClickType::DoubleClick,
                 slot: Slot::Normal(slot.try_into().or(Err(InventoryError::InvalidSlot))?),
             }),
-            _ => Err(InventoryError::InvalidPacket),
         }
     }
 
     fn new_normal_click(button: i8, slot: i16) -> Result<Self, InventoryError> {
         let slot = match slot {
-            -999 => Slot::OutsideInventory,
+            SLOT_INDEX_OUTSIDE => Slot::OutsideInventory,
             _ => {
-                let slot = slot.try_into().or(Err(InventoryError::InvalidSlot))?;
+                let slot = slot.try_into().unwrap_or(0);
                 Slot::Normal(slot)
             }
         };
         let button = match button {
-            0 => MouseClick::Left,
-            1 => MouseClick::Right,
+            BUTTON_CLICK_LEFT => MouseClick::Left,
+            BUTTON_CLICK_RIGHT => MouseClick::Right,
             _ => Err(InventoryError::InvalidPacket)?,
         };
         Ok(Self {
@@ -55,8 +64,10 @@ impl Click {
 
     fn new_key_click(button: i8, slot: i16) -> Result<Self, InventoryError> {
         let key = match button {
-            0..9 => KeyClick::Slot(button.try_into().or(Err(InventoryError::InvalidSlot))?),
-            40 => KeyClick::Offhand,
+            KEY_CLICK_HOTBAR_START..KEY_CLICK_HOTBAR_END => {
+                KeyClick::Slot(button.try_into().or(Err(InventoryError::InvalidSlot))?)
+            }
+            KEY_CLICK_OFFHAND => KeyClick::Offhand,
             _ => Err(InventoryError::InvalidSlot)?,
         };
 
@@ -66,15 +77,18 @@ impl Click {
         })
     }
 
-    fn new_drop_item(button: i8) -> Result<Self, InventoryError> {
-        let drop_type = match button {
-            0 => DropType::SingleItem,
-            1 => DropType::FullStack,
-            _ => Err(InventoryError::InvalidPacket)?,
+    fn new_drop_item(button: i8, slot: i16) -> Result<Self, InventoryError> {
+        let drop_type = DropType::from_i8(button)?;
+        let slot = match slot {
+            SLOT_INDEX_OUTSIDE => Slot::OutsideInventory,
+            _ => {
+                let slot = slot.try_into().unwrap_or(0);
+                Slot::Normal(slot)
+            }
         };
         Ok(Self {
             click_type: ClickType::DropType(drop_type),
-            slot: Slot::OutsideInventory,
+            slot,
         })
     }
 
@@ -99,6 +113,7 @@ impl Click {
     }
 }
 
+#[derive(Debug)]
 pub enum ClickType {
     MouseClick(MouseClick),
     ShiftClick,
@@ -108,40 +123,48 @@ pub enum ClickType {
     MouseDrag { drag_state: MouseDragState },
     DoubleClick,
 }
-#[derive(Debug, PartialEq, Eq)]
+#[derive(Debug, PartialEq, Eq, Clone)]
 pub enum MouseClick {
     Left,
     Right,
 }
 
+#[derive(Debug)]
 pub enum KeyClick {
     Slot(u8),
     Offhand,
 }
-#[derive(Copy, Clone)]
+#[derive(Debug, Copy, Clone)]
 pub enum Slot {
     Normal(usize),
     OutsideInventory,
 }
 
+#[derive(Debug)]
 pub enum DropType {
     SingleItem,
     FullStack,
 }
+
+impl DropType {
+    fn from_i8(value: i8) -> Result<Self, InventoryError> {
+        Ok(match value {
+            0 => Self::SingleItem,
+            1 => Self::FullStack,
+            _ => return Err(InventoryError::InvalidPacket),
+        })
+    }
+}
+
 #[derive(Debug, PartialEq)]
 pub enum MouseDragType {
     Left,
     Right,
     Middle,
 }
-#[derive(PartialEq)]
+#[derive(PartialEq, Debug)]
 pub enum MouseDragState {
     Start(MouseDragType),
     AddSlot(usize),
     End,
-}
-
-pub enum ItemChange {
-    Remove { slot: usize },
-    Add { slot: usize, item: ItemStack },
 }

@@ -1,167 +1,204 @@
-use log::warn;
+use fun::FunConfig;
 use logging::LoggingConfig;
-use pumpkin_core::{Difficulty, GameMode};
-use query::QueryConfig;
-use serde::{de::DeserializeOwned, Deserialize, Serialize};
+use pumpkin_util::world_seed::Seed;
+use pumpkin_util::{Difficulty, GameMode, PermissionLvl};
+use serde::{Deserialize, Serialize, de::DeserializeOwned};
 
-// TODO: when https://github.com/rust-lang/rfcs/pull/3681 gets merged, replace serde-inline-default with native syntax
-use serde_inline_default::serde_inline_default;
-
-use std::{
-    fs,
-    net::{Ipv4Addr, SocketAddr},
-    path::Path,
-    sync::LazyLock,
-};
-
-pub mod auth;
+use std::net::SocketAddr;
+use std::path::PathBuf;
+use std::{fs, num::NonZeroU8, path::Path};
+pub mod fun;
 pub mod logging;
-pub mod proxy;
-pub mod query;
+pub mod networking;
+
 pub mod resource_pack;
 
-pub use auth::AuthenticationConfig;
+pub use chat::ChatConfig;
 pub use commands::CommandsConfig;
-pub use compression::CompressionConfig;
+pub use networking::auth::AuthenticationConfig;
+pub use networking::compression::CompressionConfig;
+pub use networking::lan_broadcast::LANBroadcastConfig;
+pub use networking::rcon::RCONConfig;
 pub use pvp::PVPConfig;
-pub use rcon::RCONConfig;
+pub use server_links::ServerLinksConfig;
 
 mod commands;
-pub mod compression;
+
+mod chat;
+pub mod chunk;
+pub mod op;
+mod player_data;
 mod pvp;
-mod rcon;
+mod server_links;
+pub mod whitelist;
+pub mod world;
 
-use proxy::ProxyConfig;
+use networking::NetworkingConfig;
+use player_data::PlayerDataConfig;
 use resource_pack::ResourcePackConfig;
-
-pub static ADVANCED_CONFIG: LazyLock<AdvancedConfiguration> =
-    LazyLock::new(AdvancedConfiguration::load);
-
-pub static BASIC_CONFIG: LazyLock<BasicConfiguration> = LazyLock::new(BasicConfiguration::load);
+use world::LevelConfig;
 
 /// The idea is that Pumpkin should very customizable.
-/// You can Enable or Disable Features depending on your needs.
+/// You can enable or disable features depending on your needs.
 ///
-/// This also allows you get some Performance or Resource boosts.
-/// Important: The Configuration should match Vanilla by default
+/// This also allows you get some performance or resource boosts.
+/// Important: The configuration should match vanilla by default.
 #[derive(Deserialize, Serialize, Default)]
 #[serde(default)]
 pub struct AdvancedConfiguration {
-    pub proxy: ProxyConfig,
-    pub authentication: AuthenticationConfig,
-    pub packet_compression: CompressionConfig,
-    pub resource_pack: ResourcePackConfig,
-    pub commands: CommandsConfig,
-    pub rcon: RCONConfig,
-    pub pvp: PVPConfig,
     pub logging: LoggingConfig,
-    pub query: QueryConfig,
+    pub resource_pack: ResourcePackConfig,
+    pub world: LevelConfig,
+    pub networking: NetworkingConfig,
+    pub commands: CommandsConfig,
+    pub chat: ChatConfig,
+    pub pvp: PVPConfig,
+    pub server_links: ServerLinksConfig,
+    pub player_data: PlayerDataConfig,
+    pub fun: FunConfig,
 }
 
-#[serde_inline_default]
 #[derive(Serialize, Deserialize)]
+#[serde(default)]
 pub struct BasicConfiguration {
-    /// The address to bind the server to.
-    #[serde(default = "default_server_address")]
-    pub server_address: SocketAddr,
+    // Whether Java Edition Client's are Accepted
+    pub java_edition: bool,
+    /// The address and port to which the Java Edition server will bind
+    pub java_edition_address: SocketAddr,
+    // Whether Bedrock Edition Client's are Accepted
+    pub bedrock_edition: bool,
+    // Whether Bedrock Edition Client's are Accepted
+    pub bedrock_edition_address: SocketAddr,
     /// The seed for world generation.
-    #[serde(default = "String::new")]
-    pub seed: String,
+    pub seed: Seed,
     /// The maximum number of players allowed on the server. Specifying `0` disables the limit.
-    #[serde_inline_default(10000)]
     pub max_players: u32,
     /// The maximum view distance for players.
-    #[serde_inline_default(10)]
-    pub view_distance: u8,
+    pub view_distance: NonZeroU8,
     /// The maximum simulated view distance.
-    #[serde_inline_default(10)]
-    pub simulation_distance: u8,
+    pub simulation_distance: NonZeroU8,
     /// The default game difficulty.
-    #[serde_inline_default(Difficulty::Normal)]
     pub default_difficulty: Difficulty,
+    /// The op level assigned by the /op command
+    pub op_permission_level: PermissionLvl,
     /// Whether the Nether dimension is enabled.
-    #[serde_inline_default(true)]
     pub allow_nether: bool,
     /// Whether the server is in hardcore mode.
-    #[serde_inline_default(false)]
     pub hardcore: bool,
     /// Whether online mode is enabled. Requires valid Minecraft accounts.
-    #[serde_inline_default(true)]
     pub online_mode: bool,
     /// Whether packet encryption is enabled. Required when online mode is enabled.
-    #[serde_inline_default(true)]
     pub encryption: bool,
-    /// The server's description displayed on the status screen.
-    #[serde_inline_default("A Blazing fast Pumpkin Server!".to_string())]
+    /// Message of the Day; the server's description displayed on the status screen.
     pub motd: String,
-    #[serde_inline_default(20.0)]
+    /// The server's ticks per second.
     pub tps: f32,
-    /// The default game mode for players.
-    #[serde_inline_default(GameMode::Survival)]
+    /// The default gamemode for players.
     pub default_gamemode: GameMode,
+    /// If the server force the gamemode on join
+    pub force_gamemode: bool,
     /// Whether to remove IPs from logs or not
-    #[serde_inline_default(true)]
     pub scrub_ips: bool,
     /// Whether to use a server favicon
-    #[serde_inline_default(true)]
     pub use_favicon: bool,
     /// Path to server favicon
-    #[serde_inline_default("icon.png".to_string())]
     pub favicon_path: String,
-}
-
-fn default_server_address() -> SocketAddr {
-    SocketAddr::new(Ipv4Addr::new(0, 0, 0, 0).into(), 25565)
+    /// The default level name
+    pub default_level_name: String,
+    /// Whether chat messages should be signed or not
+    pub allow_chat_reports: bool,
+    /// Whether to enable the whitelist
+    pub white_list: bool,
+    /// Whether to enforce the whitelist
+    pub enforce_whitelist: bool,
 }
 
 impl Default for BasicConfiguration {
     fn default() -> Self {
         Self {
-            server_address: default_server_address(),
-            seed: "".to_string(),
-            max_players: 100000,
-            view_distance: 10,
-            simulation_distance: 10,
+            java_edition: true,
+            java_edition_address: "0.0.0.0:25565".parse().unwrap(),
+            bedrock_edition: true,
+            bedrock_edition_address: "0.0.0.0:19132".parse().unwrap(),
+            seed: Seed(0),
+            max_players: 1000,
+            view_distance: NonZeroU8::new(16).unwrap(),
+            simulation_distance: NonZeroU8::new(10).unwrap(),
             default_difficulty: Difficulty::Normal,
+            op_permission_level: PermissionLvl::Four,
             allow_nether: true,
             hardcore: false,
             online_mode: true,
             encryption: true,
-            motd: "A Blazing fast Pumpkin Server!".to_string(),
+            motd: "A blazingly fast Pumpkin server!".to_string(),
             tps: 20.0,
             default_gamemode: GameMode::Survival,
+            force_gamemode: false,
             scrub_ips: true,
             use_favicon: true,
             favicon_path: "icon.png".to_string(),
+            default_level_name: "world".to_string(),
+            allow_chat_reports: false,
+            white_list: false,
+            enforce_whitelist: false,
         }
     }
 }
 
-trait LoadConfiguration {
-    fn load() -> Self
+impl BasicConfiguration {
+    pub fn get_world_path(&self) -> PathBuf {
+        PathBuf::from(&self.default_level_name)
+    }
+}
+
+pub trait LoadConfiguration {
+    fn load(config_dir: &Path) -> Self
     where
         Self: Sized + Default + Serialize + DeserializeOwned,
     {
-        let path = Self::get_path();
+        if !config_dir.exists() {
+            log::debug!("creating new config root folder");
+            fs::create_dir(config_dir).expect("Failed to create config root folder");
+        }
+        let path = config_dir.join(Self::get_path());
 
         let config = if path.exists() {
-            let file_content = fs::read_to_string(path)
-                .unwrap_or_else(|_| panic!("Couldn't read configuration file at {:?}", path));
+            let file_content = fs::read_to_string(&path)
+                .unwrap_or_else(|_| panic!("Couldn't read configuration file at {:?}", &path));
 
-            toml::from_str(&file_content).unwrap_or_else(|err| {
-                panic!(
-                    "Couldn't parse config at {:?}. Reason: {}. This is is proberbly caused by an Config update, Just delete the old Config and start Pumpkin again",
-                    path,
-                    err.message()
-                )
-            })
+            let parsed_toml_value: toml::Value = toml::from_str(&file_content)
+                .unwrap_or_else(|err| {
+                    panic!(
+                        "Couldn't parse TOML at {:?}. Reason: {}. This is probably caused by invalid TOML syntax",
+                        &path, err
+                    )
+                });
+
+            let (merged_config, changed) = Self::merge_with_default_toml(parsed_toml_value);
+
+            if changed {
+                println!(
+                    "{} changed because values were missing. The missing values were filled with default values.",
+                    path.file_name().unwrap().display()
+                );
+                if let Err(err) = fs::write(&path, toml::to_string(&merged_config).unwrap()) {
+                    log::warn!(
+                        "Couldn't write merged config to {:?}. Reason: {}",
+                        &path,
+                        err
+                    );
+                }
+            }
+
+            merged_config
         } else {
             let content = Self::default();
 
-            if let Err(err) = fs::write(path, toml::to_string(&content).unwrap()) {
-                warn!(
-                    "Couldn't write default config to {:?}. Reason: {}. This is is proberbly caused by an Config update, Just delete the old Config and start Pumpkin again",
-                    path, err
+            if let Err(err) = fs::write(&path, toml::to_string(&content).unwrap()) {
+                log::warn!(
+                    "Couldn't write default config to {:?}. Reason: {}",
+                    &path,
+                    err
                 );
             }
 
@@ -170,6 +207,55 @@ trait LoadConfiguration {
 
         config.validate();
         config
+    }
+
+    fn merge_with_default_toml(parsed_toml: toml::Value) -> (Self, bool)
+    where
+        Self: Sized + Default + Serialize + DeserializeOwned,
+    {
+        let default_config = Self::default();
+
+        let default_toml_value =
+            toml::Value::try_from(default_config).expect("Failed to parse default config");
+
+        let (merged_value, changed) =
+            Self::merge_toml_values(default_toml_value, parsed_toml.clone());
+
+        let config = merged_value
+            .try_into()
+            .expect("Failed to convert merged config");
+
+        (config, changed)
+    }
+
+    fn merge_toml_values(base: toml::Value, overlay: toml::Value) -> (toml::Value, bool) {
+        match (base, overlay) {
+            (toml::Value::Table(mut base_table), toml::Value::Table(overlay_table)) => {
+                let mut changed = false;
+
+                for key in base_table.keys() {
+                    if !overlay_table.contains_key(key) {
+                        changed = true;
+                        break;
+                    }
+                }
+
+                for (key, overlay_value) in overlay_table {
+                    if let Some(base_value) = base_table.get(&key).cloned() {
+                        let (merged_value, value_changed) =
+                            Self::merge_toml_values(base_value, overlay_value);
+                        base_table.insert(key, merged_value);
+                        if value_changed {
+                            changed = true;
+                        }
+                    } else {
+                        base_table.insert(key, overlay_value);
+                    }
+                }
+                (toml::Value::Table(base_table), changed)
+            }
+            (_, overlay) => (overlay, false),
+        }
     }
 
     fn get_path() -> &'static Path;
@@ -193,15 +279,27 @@ impl LoadConfiguration for BasicConfiguration {
     }
 
     fn validate(&self) {
-        assert!(self.view_distance >= 2, "View distance must be at least 2");
+        let min = NonZeroU8::new(2).unwrap();
+        let max = NonZeroU8::new(64).unwrap();
+
         assert!(
-            self.view_distance <= 32,
-            "View distance must be less than 32"
+            self.view_distance.ge(&min),
+            "View distance must be at least 2"
+        );
+        assert!(
+            self.view_distance.le(&max),
+            "View distance must be less than 64"
         );
         if self.online_mode {
             assert!(
                 self.encryption,
-                "When Online Mode is enabled, Encryption must be enabled"
+                "When online mode is enabled, encryption must be enabled"
+            )
+        }
+        if self.allow_chat_reports {
+            assert!(
+                self.online_mode,
+                "When allow_chat_reports is enabled, online_mode must be enabled"
             )
         }
     }

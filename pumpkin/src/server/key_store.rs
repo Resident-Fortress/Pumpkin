@@ -1,11 +1,11 @@
 use num_bigint::BigInt;
-use pumpkin_protocol::client::login::CEncryptionRequest;
-use rand::rngs::OsRng;
-use rsa::{traits::PublicKeyParts as _, Pkcs1v15Encrypt, RsaPrivateKey};
+use pkcs8::EncodePublicKey;
+use pumpkin_protocol::java::client::login::CEncryptionRequest;
+use rsa::{Pkcs1v15Encrypt, RsaPrivateKey};
 use sha1::Sha1;
 use sha2::Digest;
 
-use crate::client::EncryptionError;
+use crate::net::EncryptionError;
 
 pub struct KeyStore {
     pub private_key: RsaPrivateKey,
@@ -13,15 +13,20 @@ pub struct KeyStore {
 }
 
 impl KeyStore {
+    #[must_use]
     pub fn new() -> Self {
         log::debug!("Creating encryption keys...");
         let private_key = Self::generate_private_key();
 
-        let public_key_der = rsa_der::public_key_to_der(
-            &private_key.n().to_bytes_be(),
-            &private_key.e().to_bytes_be(),
-        )
-        .into_boxed_slice();
+        let public_key = private_key.to_public_key();
+
+        let public_key_der = public_key
+            .to_public_key_der()
+            .expect("Failed to encode public key to SPKI DER")
+            .as_bytes()
+            .to_vec()
+            .into_boxed_slice();
+
         Self {
             private_key,
             public_key_der,
@@ -30,10 +35,10 @@ impl KeyStore {
 
     fn generate_private_key() -> RsaPrivateKey {
         // Found out that OsRng is faster than rand::thread_rng here
-        let mut rng = OsRng;
+        let mut rng = rand::rng();
 
         // let pub_key = RsaPublicKey::from(&priv_key);
-        RsaPrivateKey::new(&mut rng, 1024).expect("failed to generate a key")
+        RsaPrivateKey::new(&mut rng, 1024).expect("Failed to generate a key")
     }
 
     pub fn encryption_request<'a>(
@@ -41,7 +46,7 @@ impl KeyStore {
         server_id: &'a str,
         verification_token: &'a [u8; 4],
         should_authenticate: bool,
-    ) -> CEncryptionRequest<'_> {
+    ) -> CEncryptionRequest<'a> {
         CEncryptionRequest::new(
             server_id,
             &self.public_key_der,

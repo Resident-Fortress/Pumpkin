@@ -1,15 +1,17 @@
+use pumpkin_util::PermissionLvl;
 use serde::{Deserialize, Serialize};
-use serde_inline_default::serde_inline_default;
 
 #[derive(Deserialize, Serialize)]
-#[serde_inline_default]
+#[serde(default)]
 pub struct CommandsConfig {
-    /// Are commands from the Console accepted ?
-    #[serde_inline_default(true)]
+    /// Whether commands from the console are accepted.
     pub use_console: bool,
-    /// Should be commands from players be logged in console?
-    #[serde_inline_default(true)]
+    /// Whether to use rusty line for tty input.
+    pub use_tty: bool,
+    /// Whether commands from players are logged in the console.
     pub log_console: bool, // TODO: commands...
+    /// The `op` permission level of everyone that is not in the `ops` file.
+    pub default_op_level: PermissionLvl,
 }
 
 impl Default for CommandsConfig {
@@ -17,6 +19,8 @@ impl Default for CommandsConfig {
         Self {
             use_console: true,
             log_console: true,
+            use_tty: true,
+            default_op_level: PermissionLvl::Zero,
         }
     }
 }

@@ -8,7 +8,6 @@ use crate::{
         format::{anvil::AnvilChunkFile, linear::LinearFile},
         io::{Dirtiable, FileIO, LoadedData, file_manager::ChunkFileManager},
     },
-    dimension::Dimension,
     generation::get_world_gen,
     tick::{OrderedTick, ScheduledTick, TickPriority},
     world::BlockRegistryExt,
@@ -19,6 +18,7 @@ use log::trace;
 use num_traits::Zero;
 use pumpkin_config::{chunk::ChunkConfig, world::LevelConfig};
 use pumpkin_data::biome::Biome;
+use pumpkin_data::dimension::Dimension;
 use pumpkin_data::{Block, block_properties::has_random_ticks, fluid::Fluid};
 use pumpkin_util::math::{position::BlockPos, vector2::Vector2};
 use pumpkin_util::world_seed::Seed;
@@ -302,18 +302,22 @@ impl Level {
         self.shut_down_chunk_system.store(true, Ordering::Relaxed);
         self.level_channel.notify();
 
-        {
+        let handles: Vec<_> = {
             let mut lock = self.thread_tracker.lock().unwrap();
-            log::info!("Wait {} jobs stop", lock.len());
-            while let Some(i) = lock.pop() {
-                log::info!(
-                    "Waiting Thread {:?} {} stop",
-                    i.thread().id(),
-                    i.thread().name().unwrap_or("unknown")
-                );
-                i.join().unwrap();
+            log::info!("Shutting down {} jobs", lock.len());
+            lock.drain(..).collect()
+        };
+
+        for handle in handles {
+            log::info!(
+                "Waiting for thread {:?} ({}) to stop",
+                handle.thread().id(),
+                handle.thread().name().unwrap_or("unknown")
+            );
+
+            if let Err(e) = handle.join() {
+                log::error!("Thread panicked during execution: {:?}", e);
             }
-            log::info!("All Thread stop");
         }
 
         log::info!("Wait chunk system tasks stop");
@@ -529,19 +533,19 @@ impl Level {
                         chunk_z_base + z_offset,
                     );
 
-                    let block_id = chunk
+                    let block_state_id = chunk
                         .section
                         .get_block_absolute_y(x_offset as usize, random_pos.0.y, z_offset as usize)
                         .unwrap_or(Block::AIR.default_state.id);
 
-                    section_block_data.push((random_pos, block_id));
+                    section_block_data.push((random_pos, block_state_id));
                 }
                 section_blocks.push(section_block_data);
             }
 
             for section_data in section_blocks {
-                for (random_pos, block_id) in section_data {
-                    if has_random_ticks(block_id) {
+                for (random_pos, block_state_id) in section_data {
+                    if has_random_ticks(block_state_id) {
                         ticks.random_ticks.push(ScheduledTick {
                             position: random_pos,
                             delay: 0,

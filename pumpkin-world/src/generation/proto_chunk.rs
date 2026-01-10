@@ -1,12 +1,13 @@
-use std::collections::HashMap;
+use std::collections::{HashMap, HashSet};
 use std::pin::Pin;
 
+use pumpkin_data::dimension::Dimension;
 use pumpkin_data::fluid::{Fluid, FluidState};
 use pumpkin_data::tag;
 use pumpkin_data::{
     Block, BlockState, block_properties::blocks_movement, chunk::Biome, tag::Taggable,
 };
-use pumpkin_util::math::block_box::BlockBox;
+use pumpkin_util::random::{RandomImpl, get_carver_seed};
 use pumpkin_util::{
     HeightMap,
     math::{position::BlockPos, vector3::Vector3},
@@ -35,20 +36,24 @@ use crate::generation::height_limit::HeightLimitView;
 use crate::generation::noise::perlin::DoublePerlinNoiseSampler;
 use crate::generation::noise::router::surface_height_sampler::SurfaceHeightSamplerBuilderOptions;
 use crate::generation::structure::placement::StructurePlacementCalculator;
-use crate::generation::structure::structures::StructurePosition;
-use crate::generation::structure::{STRUCTURE_SETS, STRUCTURES, Structure, StructureType};
+use crate::generation::structure::structures::StructureInstance;
+use crate::generation::structure::{STRUCTURE_SETS, STRUCTURES, StructureKeys, WeightedEntry};
 use crate::{
     BlockStateId, ProtoNoiseRouters,
     biome::{BiomeSupplier, MultiNoiseBiomeSupplier, end::TheEndBiomeSupplier},
     block::RawBlockState,
     chunk::CHUNK_AREA,
-    dimension::Dimension,
     generation::{biome, positions::chunk_pos},
     world::{BlockAccessor, BlockRegistryExt},
 };
 
 pub trait GenerationCache: HeightLimitView + BlockAccessor {
     fn get_center_chunk_mut(&mut self) -> &mut ProtoChunk;
+    fn get_center_chunk(&self) -> &ProtoChunk;
+
+    fn get_chunk_mut(&mut self, chunk_x: i32, chunk_z: i32) -> Option<&mut ProtoChunk>;
+    fn get_chunk(&self, chunk_x: i32, chunk_z: i32) -> Option<&ProtoChunk>;
+
     fn get_block_state(&self, pos: &Vector3<i32>) -> RawBlockState;
     fn get_fluid_and_fluid_state(&self, position: &Vector3<i32>) -> (Fluid, FluidState);
     fn set_block_state(&mut self, pos: &Vector3<i32>, block_state: &BlockState);
@@ -118,7 +123,7 @@ impl FluidLevelSamplerImpl for StandardChunkFluidLevelSampler {
 ///
 /// 12. full: Generation is done and a chunk can now be loaded. The proto-chunk is now converted to a level chunk and all block updates deferred in the above steps are executed.
 ///
-#[derive(Debug, Clone)]
+#[derive(Clone)]
 pub struct ProtoChunk {
     pub x: i32,
     pub z: i32,
@@ -126,7 +131,7 @@ pub struct ProtoChunk {
     biome_mixer_seed: i64,
     // These are local positions
     flat_block_map: Box<[BlockStateId]>,
-    flat_biome_map: Box<[&'static Biome]>,
+    pub flat_biome_map: Box<[&'static Biome]>,
     /// HEIGHTMAPS
     ///
     /// Top block that is not air
@@ -134,8 +139,8 @@ pub struct ProtoChunk {
     flat_ocean_floor_height_map: Box<[i16]>,
     pub flat_motion_blocking_height_map: Box<[i16]>,
     pub flat_motion_blocking_no_leaves_height_map: Box<[i16]>,
-    // may want to use chunk status
-    structure_starts: HashMap<Structure, (StructurePosition, StructureType)>,
+    structure_starts: HashMap<StructureKeys, StructureInstance>,
+
     // Height of the chunk for indexing
     height: u16,
     bottom_y: i8,
@@ -167,12 +172,11 @@ impl ProtoChunk {
     pub fn new(
         x: i32,
         z: i32,
-        settings: &GenerationSettings,
+        dimension: &Dimension,
         default_block: &'static BlockState,
         biome_mixer_seed: i64,
     ) -> Self {
-        let generation_shape = &settings.shape;
-        let height = generation_shape.height;
+        let height = dimension.logical_height as u16;
 
         let default_heightmap = vec![i16::MIN; CHUNK_AREA].into_boxed_slice();
         Self {
@@ -194,34 +198,40 @@ impl ProtoChunk {
             flat_motion_blocking_no_leaves_height_map: default_heightmap,
             structure_starts: HashMap::new(),
             height,
-            bottom_y: generation_shape.min_y,
+            bottom_y: dimension.min_y as i8,
             stage: StagedChunkEnum::Empty,
         }
     }
 
     pub fn from_chunk_data(
         chunk_data: &ChunkData,
-        settings: &GenerationSettings,
+        dimension: &Dimension,
         default_block: &'static BlockState,
         biome_mixer_seed: i64,
     ) -> Self {
         let mut proto_chunk = ProtoChunk::new(
             chunk_data.x,
             chunk_data.z,
-            settings,
+            dimension,
             default_block,
             biome_mixer_seed,
         );
 
         for (section_y, section) in chunk_data.section.sections.iter().enumerate() {
+            // 1. Calculate the base Y for this section
+            let section_base_y = section_y as i32 * 16;
+
+            if section_base_y >= proto_chunk.height() as i32 {
+                continue;
+            }
+
             for x in 0..16 {
                 for y in 0..16 {
                     for z in 0..16 {
                         let block_state_id = section.block_states.get(x, y, z);
                         let block_state = BlockState::from_id(block_state_id);
 
-                        let absolute_y =
-                            (section_y << 4) as i32 + y as i32 + chunk_data.section.min_y;
+                        let absolute_y = section_base_y + y as i32 + chunk_data.section.min_y;
 
                         proto_chunk.set_block_state(
                             &Vector3::new(x as i32, absolute_y, z as i32),
@@ -230,18 +240,23 @@ impl ProtoChunk {
                     }
                 }
             }
+
             for x in 0..4 {
                 for y in 0..4 {
                     for z in 0..4 {
                         let biome_id = section.biomes.get(x, y, z);
                         let biome = Biome::from_id(biome_id).unwrap();
 
-                        let relative_y_block = (section_y as i32 * 16) + (y as i32 * 4);
+                        let relative_y_block = section_base_y + (y as i32 * 4);
+
+                        let biome_y_idx = biome_coords::from_block(relative_y_block);
+
                         let index = proto_chunk.local_biome_pos_to_biome_index(
                             x as i32,
-                            biome_coords::from_block(relative_y_block),
+                            biome_y_idx,
                             z as i32,
                         );
+
                         proto_chunk.flat_biome_map[index] = biome;
                     }
                 }
@@ -395,7 +410,7 @@ impl ProtoChunk {
     }
 
     #[inline]
-    fn local_biome_pos_to_biome_index(&self, x: i32, y: i32, z: i32) -> usize {
+    pub fn local_biome_pos_to_biome_index(&self, x: i32, y: i32, z: i32) -> usize {
         #[cfg(debug_assertions)]
         {
             assert!((0..=3).contains(&x));
@@ -452,7 +467,8 @@ impl ProtoChunk {
             let blocks_movement = blocks_movement(block_state, block);
             if blocks_movement {
                 self.maybe_update_ocean_floor_height_map(local_x, pos.y, local_z);
-            } else if blocks_movement || block_state.is_liquid() {
+            }
+            if blocks_movement || block_state.is_liquid() {
                 self.maybe_update_motion_blocking_height_map(local_x, pos.y, local_z);
                 if !block.has_tag(&tag::Block::MINECRAFT_LEAVES) {
                     {
@@ -479,7 +495,6 @@ impl ProtoChunk {
     }
 
     pub fn step_to_biomes(&mut self, dimension: Dimension, noise_router: &ProtoNoiseRouters) {
-        debug_assert_eq!(self.stage, StagedChunkEnum::Empty);
         let start_x = start_block_x(self.x);
         let start_z = start_block_z(self.z);
         let horizontal_biome_end = biome_coords::from_block(16);
@@ -501,7 +516,7 @@ impl ProtoChunk {
         random_config: &GlobalRandomConfig,
         noise_router: &ProtoNoiseRouters,
     ) {
-        debug_assert_eq!(self.stage, StagedChunkEnum::Biomes);
+        //debug_assert_eq!(self.stage, StagedChunkEnum::Biomes);
 
         let generation_shape = &settings.shape;
         let horizontal_cell_count = CHUNK_DIM / generation_shape.horizontal_cell_block_count();
@@ -607,7 +622,7 @@ impl ProtoChunk {
             for x in 0..biomes_per_section {
                 for y in 0..biomes_per_section {
                     for z in 0..biomes_per_section {
-                        let biome = if dimension == Dimension::End {
+                        let biome = if dimension == Dimension::THE_END {
                             TheEndBiomeSupplier::biome(
                                 start_biome_x + x,
                                 start_biome_y + y,
@@ -624,8 +639,6 @@ impl ProtoChunk {
                                 dimension,
                             )
                         };
-                        //dbg!("Populating biome: {:?} -> {:?}", biome_pos, biome);
-
                         let index = self.local_biome_pos_to_biome_index(
                             x,
                             start_biome_y + y - biome_coords::from_block(min_y as i32),
@@ -896,83 +909,221 @@ impl ProtoChunk {
         block_registry: &dyn BlockRegistryExt,
         random_config: &GlobalRandomConfig,
     ) {
-        let chunk = cache.get_center_chunk_mut();
-        debug_assert_eq!(chunk.stage, StagedChunkEnum::Surface);
-        let min_y = chunk.bottom_y();
-        let height = chunk.height();
+        let (center_x, center_z, min_y, height, biomes_in_chunk) = {
+            let chunk = cache.get_center_chunk();
+            let mut biomes = HashSet::new();
+            // bad
+            for biome in chunk.flat_biome_map.clone() {
+                biomes.insert(biome);
+            }
 
-        let bottom_section = section_coords::block_to_section(min_y) as i32;
-        let block_pos = BlockPos(Vector3::new(
-            section_coords::section_to_block(chunk.x),
-            bottom_section,
-            section_coords::section_to_block(chunk.z),
-        ));
+            (chunk.x, chunk.z, chunk.bottom_y(), chunk.height(), biomes)
+        };
 
+        let block_pos = BlockPos::new(
+            section_coords::section_to_block(center_x),
+            section_coords::block_to_section(min_y) as i32,
+            section_coords::section_to_block(center_z),
+        );
         let population_seed =
             Xoroshiro::get_population_seed(random_config.seed, block_pos.0.x, block_pos.0.z);
 
-        let _chunk_box = chunk.get_block_box_for_chunk();
-        for (_structure, (pos, stype)) in chunk.structure_starts.clone() {
-            dbg!("generating structure");
-            stype.generate(pos.clone(), chunk);
+        const MAX_STEPS: usize = 11;
+
+        for step in 0..MAX_STEPS {
+            let decorator_seed = get_decorator_seed(population_seed, 0, step as u64);
+            let mut random = RandomGenerator::Xoroshiro(Xoroshiro::from_seed(decorator_seed));
+
+            let mut tasks = Vec::new();
+
+            {
+                let center_chunk = cache.get_center_chunk();
+                for (id, instance) in &center_chunk.structure_starts {
+                    // Check if this structure belongs to the current step
+                    if let Some(s) = STRUCTURES.get(id)
+                        && s.step.ordinal() != step
+                    {
+                        continue;
+                    }
+
+                    match instance {
+                        StructureInstance::Start(pos) => {
+                            tasks.push(pos.collector.clone());
+                        }
+                        StructureInstance::Reference(origin_pos) => {
+                            let origin_chunk_x = origin_pos.0.x >> 4;
+                            let origin_chunk_z = origin_pos.0.z >> 4;
+
+                            if let Some(neighbor) = cache.get_chunk(origin_chunk_x, origin_chunk_z)
+                                && let Some(StructureInstance::Start(pos)) =
+                                    neighbor.structure_starts.get(id)
+                            {
+                                tasks.push(pos.collector.clone());
+                            }
+                        }
+                    }
+                }
+            }
+
+            let chunk = cache.get_center_chunk_mut();
+            for collector_arc in tasks {
+                let mut collector = collector_arc.lock().unwrap();
+                collector.generate_in_chunk(chunk, &mut random, random_config.seed as i64);
+            }
+
+            let mut features_to_run = HashSet::new();
+            for biome in &biomes_in_chunk {
+                if let Some(features_at_step) = biome.features.get(step) {
+                    for feature_id in *features_at_step {
+                        features_to_run
+                            .insert(feature_id.strip_prefix("minecraft:").unwrap_or(feature_id));
+                    }
+                }
+            }
+            // let mut sorted_features: Vec<_> = features_to_run.into_iter().collect();
+            // sorted_features.sort_by_key(|f| f.registry_index());
+
+            for (p, feature_id) in features_to_run.into_iter().enumerate() {
+                if let Some(feature) = PLACED_FEATURES.get(feature_id) {
+                    let decorator_seed = get_decorator_seed(population_seed, p as u64, step as u64);
+                    let mut random =
+                        RandomGenerator::Xoroshiro(Xoroshiro::from_seed(decorator_seed));
+
+                    feature.generate(
+                        cache,
+                        block_registry,
+                        min_y,
+                        height,
+                        feature_id,
+                        &mut random,
+                        block_pos,
+                    );
+                }
+            }
         }
 
-        // TODO: This needs to be different depending on what biomes are in the chunk -> affects the
-        // random
-        for (name, feature) in PLACED_FEATURES.iter() {
-            // TODO: Properly set index and step
-            let decorator_seed = get_decorator_seed(population_seed, 0, 0);
-            let mut random = RandomGenerator::Xoroshiro(Xoroshiro::from_seed(decorator_seed));
-            feature.generate(
-                cache,
-                block_registry,
-                min_y,
-                height,
-                name,
-                &mut random,
-                block_pos,
-            );
-        }
-        let chunk = cache.get_center_chunk_mut();
-        chunk.stage = StagedChunkEnum::Features;
+        cache.get_center_chunk_mut().stage = StagedChunkEnum::Features;
     }
 
-    pub fn set_structure_starts(&mut self, random_config: &GlobalRandomConfig) {
-        for (name, set) in STRUCTURE_SETS.iter() {
-            let calculator = StructurePlacementCalculator {
-                seed: random_config.seed as i64,
-            };
-            // for structure in &set.structures {
-            //     let start = self.structure_starts.get(STRUCTURES.get(name).unwrap());
-            // }
-            if !set.placement.should_generate(calculator, self.x, self.z) {
-                continue; // ??
+    pub fn set_structure_starts(
+        &mut self,
+        random_config: &GlobalRandomConfig,
+        settings: &GenerationSettings,
+    ) {
+        let seed = random_config.seed;
+        let calculator = StructurePlacementCalculator::new(seed as i64);
+
+        for (_set_name, set) in STRUCTURE_SETS.iter() {
+            if !set.placement.should_generate(&calculator, self.x, self.z) {
+                continue;
             }
 
             if set.structures.len() == 1 {
-                let position = set.structures[0]
-                    .structure
-                    .get_structure_position(name, self);
-                if let Some(position) = position
-                    && !position.generator.pieces_positions.is_empty()
-                {
-                    self.structure_starts.insert(
-                        STRUCTURES.get(name).unwrap().clone(),
-                        (position, set.structures[0].structure.clone()),
-                    );
+                if let Some(entry) = set.structures.first() {
+                    self.try_set_structure_start(settings.sea_level, entry, random_config);
                 }
-                return;
+                continue;
             }
-            // TODO: handle multiple structures
+
+            let mut candidates = set.structures.clone();
+            let mut random: RandomGenerator =
+                RandomGenerator::Xoroshiro(Xoroshiro::from_seed(seed));
+            let carver_seed = get_carver_seed(&mut random, seed, self.x, self.z);
+            let mut random: RandomGenerator =
+                RandomGenerator::Xoroshiro(Xoroshiro::from_seed(carver_seed));
+
+            let mut total_weight: u32 = candidates.iter().map(|e| e.weight).sum();
+
+            while !candidates.is_empty() {
+                let mut roll = random.next_bounded_i32(total_weight as i32);
+                let mut selected_idx = 0;
+
+                for (i, entry) in candidates.iter().enumerate() {
+                    roll -= entry.weight as i32;
+                    if roll < 0 {
+                        selected_idx = i;
+                        break;
+                    }
+                }
+
+                let selected_entry = &candidates[selected_idx];
+
+                if self.try_set_structure_start(settings.sea_level, selected_entry, random_config) {
+                    break;
+                }
+
+                let failed_entry = candidates.remove(selected_idx);
+                total_weight -= failed_entry.weight;
+            }
         }
+        self.stage = StagedChunkEnum::StructureStart;
     }
 
-    fn get_block_box_for_chunk(&self) -> BlockBox {
-        let x = start_block_x(self.x);
-        let z = start_block_z(self.z);
-        let bottom = self.bottom_y() as i32 + 1;
-        let top = self.top_y() as i32;
-        BlockBox::new(x, bottom, z, x + 15, top, z + 15)
+    fn try_set_structure_start(
+        &mut self,
+        sea_level: i32,
+        entry: &WeightedEntry,
+        random_config: &GlobalRandomConfig,
+    ) -> bool {
+        if let Some(structure) = STRUCTURES.get(&entry.structure) {
+            let position =
+                entry
+                    .structure
+                    .try_generate(structure, random_config.seed as i64, self, sea_level);
+
+            if let Some(pos) = position {
+                self.structure_starts
+                    .insert(entry.structure.clone(), StructureInstance::Start(pos));
+                return true;
+            }
+        }
+        false
+    }
+
+    pub fn set_structure_references<T: GenerationCache>(cache: &mut T) {
+        let (center_x, center_z) = {
+            let chunk = cache.get_center_chunk();
+            (chunk.x, chunk.z)
+        };
+
+        let start_block_x = chunk_pos::start_block_x(center_x);
+        let start_block_z = chunk_pos::start_block_z(center_z);
+        let end_block_x = start_block_x + 15;
+        let end_block_z = start_block_z + 15;
+
+        let radius = 8;
+        let mut references_to_add = Vec::new();
+
+        for x in (center_x - radius)..=(center_x + radius) {
+            for z in (center_z - radius)..=(center_z + radius) {
+                if let Some(neighbor_chunk) = cache.get_chunk(x, z) {
+                    for (structure_key, instance) in &neighbor_chunk.structure_starts {
+                        if let StructureInstance::Start(start_data) = instance {
+                            let bbox = start_data.get_bounding_box();
+                            if bbox.intersects_raw_xz(
+                                start_block_x,
+                                start_block_z,
+                                end_block_x,
+                                end_block_z,
+                            ) {
+                                references_to_add
+                                    .push((structure_key.clone(), start_data.start_pos));
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        let center_chunk = cache.get_center_chunk_mut();
+        for (key, pos) in references_to_add {
+            center_chunk
+                .structure_starts
+                .entry(key)
+                .or_insert(StructureInstance::Reference(pos));
+        }
+
+        center_chunk.stage = StagedChunkEnum::StructureReferences;
     }
 
     fn start_cell_x(&self, horizontal_cell_block_count: u8) -> i32 {
@@ -1018,8 +1169,7 @@ impl BlockAccessor for ProtoChunk {
     }
 }
 
-#[cfg(test)]
-#[allow(dead_code)] // TODO: Fix tests to work with new ProtoChunk API
+#[cfg(test)] // TODO: Fix tests to work with new ProtoChunk API
 mod test {
     /*
     TODO: Update all tests to work with the new ProtoChunk API that doesn't use lifetimes.
